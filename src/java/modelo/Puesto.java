@@ -5,6 +5,10 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import javax.swing.table.DefaultTableModel;
 
+/**
+ *
+ * @author keila
+ */
 public class Puesto {
 
     private int id_puesto;

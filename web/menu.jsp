@@ -124,7 +124,7 @@
                 </li>
                 <li><a href="vw_compra.jsp">Compras</a>
                     <ul>
-                        <li><a href="vw_proveedor.jsp">Proveedores</a></li>
+                        <li><a href="vw_proveedores.jsp">Proveedores</a></li>
                     </ul>
                 </li>
             </ul>

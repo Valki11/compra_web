@@ -25,7 +25,7 @@
                         <div class="modal-body">
                             <form action="sr_puesto" method="post" class="form-group">
                                 <label for="lbl_id_puesto" ><b>ID</b></label>
-                                <input type="text" name="txt_id_puesto" id="txt_id" class="form-control"> 
+                                <input type="text" name="txt_id_puesto" id="txt_id_puesto" class="form-control"> 
                                 <label for="lbl_puesto" ><b>Puesto</b></label>
                                 <input type="text" name="txt_puesto" id="txt_puesto" class="form-control" placeholder="Ejemplo: Programador" required>
                                 <br>

@@ -3,8 +3,8 @@ package modelo;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.PreparedStatement;
-import java.util.Date;
 import javax.swing.table.DefaultTableModel;
+import java.sql.Date;
 
 /**
  *
@@ -131,21 +131,23 @@ public class Empleado {
         try {
             cn = new Conexion();
             cn.abrir_conexion();
-            String query = "SELECT e.id_empleado as id,e.codigo,e.nombres,e.apellidos,e.direccion,e.telefono,e.fecha_nacimiento,p.puesto,p.id_puesto FROM empleados as e inner join puestos as p on e.id_puesto = p.id_puesto;";
+            String query = "SELECT * FROM empleados";
             ResultSet consulta = cn.conexionBD.createStatement().executeQuery(query);
-            String encabezado[] = {"id", "codigo", "nombres", "apellidos", "direccion", "telefono", "nacimiento", "puesto", "id_puesto"};
+            String encabezado[] = {"id_empleado", "nombres", "apellidos", "dirrecion", "telefono", "DPI", "genero", "fecha_nacimiento", "id_puesto","fecha_inicio_labores","fecha_ingreso"};
             tabla.setColumnIdentifiers(encabezado);
-            String datos[] = new String[9];
+            String datos[] = new String[11];
             while (consulta.next()) {
-                datos[0] = consulta.getString("id");
-                datos[1] = consulta.getString("codigo");
-                datos[2] = consulta.getString("nombres");
-                datos[3] = consulta.getString("apellidos");
-                datos[4] = consulta.getString("direccion");
-                datos[5] = consulta.getString("telefono");
-                datos[6] = consulta.getString("fecha_nacimiento");
-                datos[7] = consulta.getString("puesto");
+                datos[0] = consulta.getString("id_empleado");
+                datos[1] = consulta.getString("nombres");
+                datos[2] = consulta.getString("apellidos");
+                datos[3] = consulta.getString("dirrecion");
+                datos[4] = consulta.getString("telefono");
+                datos[5] = consulta.getString("DPI");
+                datos[6] = consulta.getString("genero");
+                datos[7] = consulta.getString("fecha_nacimiento");
                 datos[8] = consulta.getString("id_puesto");
+                datos[9] = consulta.getString("fecha_inicio_labores");
+                datos[10] = consulta.getString("fecha_ingreso");
                 tabla.addRow(datos);
 
             }
@@ -162,16 +164,20 @@ public class Empleado {
         try {
             PreparedStatement parametro;
             cn = new Conexion();
-            String query = "insert into empleados(codigo,nombres,apellidos,direccion,telefono,fecha_nacimiento,id_puesto) values(?,?,?,?,?,?,?);";
+            String query = "insert into empleados(id_empleado, nombres, apellidos, dirrecion, telefono, DPI, genero, fecha_nacimiento, id_puesto,fecha_inicio_labores,fecha_ingreso) values(?,?,?,?,?,?,?,?,?,?,?);";
             cn.abrir_conexion();
             parametro = (PreparedStatement) cn.conexionBD.prepareStatement(query);
-            parametro.setString(1, getCodigo());
+            parametro.setInt(1, getId_empleado());
             parametro.setString(2, getNombres());
             parametro.setString(3, getApellidos());
             parametro.setString(4, getDireccion());
             parametro.setString(5, getTelefono());
-            parametro.setString(6, getFecha_nacimiento());
-            parametro.setInt(7, getId_puesto());
+            parametro.setString(6, getDPI());
+            parametro.setBoolean(7, getGenero());
+            parametro.setDate(8, getFecha_nacimiento());
+            parametro.setDate(9, getFecha_inicio_labores());
+            parametro.setDate(10, getFecha_ingreso());
+            parametro.setInt(11, getId_puesto());
             retorno = parametro.executeUpdate();
             cn.cerrar_conexion();
         } catch (SQLException ex) {
@@ -185,17 +191,21 @@ public class Empleado {
         try {
             PreparedStatement parametro;
             cn = new Conexion();
-            String query = "update empleados set codigo = ?,nombres= ?,apellidos= ?,direccion= ?,telefono= ?,fecha_nacimiento= ?,id_puesto= ? where id_empleado = ?;";
+            String query = "update empleados set id_empleado= ?, nombres= ?, apellidos= ?, dirrecion= ?, telefono= ?, DPI= ?, genero= ?, fecha_nacimiento= ?, id_puesto= ?,fecha_inicio_labores= ?,fecha_ingreso= ? where id_empleado = ?,= ?,= ?,= ?,= ?,= ?,= ?,= ?,= ?,= ?,= ?;";
             cn.abrir_conexion();
             parametro = (PreparedStatement) cn.conexionBD.prepareStatement(query);
-            parametro.setString(1, getCodigo());
+            parametro = (PreparedStatement) cn.conexionBD.prepareStatement(query);
+            parametro.setInt(1, getId_empleado());
             parametro.setString(2, getNombres());
             parametro.setString(3, getApellidos());
             parametro.setString(4, getDireccion());
             parametro.setString(5, getTelefono());
-            parametro.setString(6, getFecha_nacimiento());
-            parametro.setInt(7, getId_puesto());
-            parametro.setInt(8, getId());
+            parametro.setString(6, getDPI());
+            parametro.setBoolean(7, getGenero());
+            parametro.setDate(8, getFecha_nacimiento());
+            parametro.setDate(9, getFecha_inicio_labores());
+            parametro.setDate(10, getFecha_ingreso());
+            parametro.setInt(11, getId_puesto());
             retorno = parametro.executeUpdate();
             cn.cerrar_conexion();
         } catch (SQLException ex) {
@@ -212,7 +222,7 @@ public class Empleado {
             String query = "delete from empleados  where id_empleado = ?;";
             cn.abrir_conexion();
             parametro = (PreparedStatement) cn.conexionBD.prepareStatement(query);
-            parametro.setInt(1, getId());
+            parametro.setInt(1, getId_empleado());
             retorno = parametro.executeUpdate();
             cn.cerrar_conexion();
         } catch (SQLException ex) {

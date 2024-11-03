@@ -38,7 +38,7 @@ public class sr_ventas extends HttpServlet {
 
             /*   java.util.Date utilDate =request.getParameter("fecha_ingreso");  */
  /*java.sql.Date sqlDate = new java.sql.Date(utilDate.getTime()); */
-            ventas = new Ventas (Integer.valueOf(request.getParameter("id_Venta")), (Integer.valueOf(request.getParameter("no_factura")), request.getParameter("serie"),(java.sql.Date) fecha), Integer.valueOf(request.getParameter("id_Cliente")), Integer.valueOf(request.getParameter("id_empleado")), Integer.valueOf(request.getParameter("id_Venta")), (java.sql.Date) fecha) ;
+            ventas = new Ventas(Integer.valueOf(request.getParameter("id_Venta")), Integer.valueOf(request.getParameter("no_factura")), request.getParameter("serie").charAt(0),(java.sql.Date) fecha, Integer.valueOf(request.getParameter("id_Cliente")), Integer.valueOf(request.getParameter("id_empleado")), (java.sql.Date) fecha);
             // Boton agregar 
             if ("agregar".equals(request.getParameter("btn_agregar"))) {
                 if (ventas.agregar() > 0) {

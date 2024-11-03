@@ -66,7 +66,14 @@
                 <thead>
                     <tr>
                         <th>id</th>
-                        <th>Productos</th>
+                        <th>Producto</th>
+                        <th>Cod. Marca</th>
+                        <th>Descripcion</th>
+                        <th>Imagen</th>
+                        <th>Precio Costo</th>
+                        <th>Precio Venta</th>
+                        <th>Existencia</th>
+                        <th>Fecha Ingreso</th>
                     </tr>
                 </thead>
                 <tbody id="tbl_producto">
@@ -121,7 +128,7 @@
                                         precio_costo = target.parent().data('precio_costo');
                                         precio_venta = target.parent().data('precio_venta');
                                         existencia = target.parent().data('existencia');
-                                        fecha_ingreso = target.parent().data('producto');
+                                        fecha_ingreso = target.parent().data('fecha_ingreso');
                                         
                                         $("#txt_id_producto").val(id_producto);
                                         $("#txt_producto").val(producto);
@@ -130,13 +137,11 @@
                                         $("#txt_imagen").val(imagen);
                                         $("#txt_costo").val(precio_costo);
                                         $("#txt_venta").val(precio_venta);
-                                        $("#txt_producto").val(producto);
                                         $("#txt_existencia").val(existencia);
                                         $("#fecha_ingreso").val(fecha_ingreso);
                                         $("#modal_producto").modal('show');
                                     });
 
         </script>
-    </body>
     </body>
 </html>

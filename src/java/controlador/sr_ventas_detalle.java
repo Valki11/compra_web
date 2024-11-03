@@ -1,4 +1,3 @@
-
 package controlador;
 
 import java.io.IOException;
@@ -19,7 +18,7 @@ import modelo.Ventas_detalle;
 public class sr_ventas_detalle extends HttpServlet {
 
     Ventas_detalle ventas_detalle;
-    
+
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
         response.setContentType("text/html;charset=UTF-8");
@@ -38,7 +37,7 @@ public class sr_ventas_detalle extends HttpServlet {
 
             /*   java.util.Date utilDate =request.getParameter("fecha_ingreso");  */
  /*java.sql.Date sqlDate = new java.sql.Date(utilDate.getTime()); */
-            ventas_detalle = new Ventas_detalle (Integer.valueOf(request.getParameter("id_venta_detalle")), Integer.valueOf(request.getParameter("id_Venta")), Integer.valueOf(request.getParameter("id_producto")), Integer.valueOf(request.getParameter("cantidad")), Integer.valueOf(request.getParameter("precio_unitario")));
+            ventas_detalle = new Ventas_detalle(Integer.valueOf(request.getParameter("id_venta_detalle")), Integer.valueOf(request.getParameter("id_Venta")), Integer.valueOf(request.getParameter("id_producto")), Integer.valueOf(request.getParameter("cantidad")), Integer.valueOf(request.getParameter("precio_unitario")));
 
             // Boton agregar 
             if ("agregar".equals(request.getParameter("btn_agregar"))) {
@@ -59,9 +58,15 @@ public class sr_ventas_detalle extends HttpServlet {
                 } else {
                     out.println("<h1> xxxxxxx No se Modifico xxxxxxxxxxxx </h1>");
                     out.println("<a href='index.jsp'>Regresar...</a>");
+                }
+            }
+
+            out.println("</body>");
+            out.println("</html>");
         }
     }
     // <editor-fold defaultstate="collapsed" desc="HttpServlet methods. Click on the + sign on the left to edit the code.">
+
     /**
      * Handles the HTTP <code>GET</code> method.
      *
@@ -98,6 +103,6 @@ public class sr_ventas_detalle extends HttpServlet {
     @Override
     public String getServletInfo() {
         return "Short description";
-    // </editor-fold>
-  }
-    
+        // </editor-fold>
+    }
+}

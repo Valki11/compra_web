@@ -1,45 +1,130 @@
-
 package modelo;
 
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.PreparedStatement;
+import java.util.Date;
 import javax.swing.table.DefaultTableModel;
 
 /**
  *
  * @author keila
  */
-public class Empleado extends Persona {
+public class Empleado {
 
-    private String codigo;
+    private int id_empleado;
+    private String nombres, apellidos, direccion, telefono, DPI;
+    private Boolean genero;
+    private Date fecha_nacimiento, fecha_inicio_labores, fecha_ingreso;
     private int id_puesto;
-    Conexion cn;
+
+    private Conexion cn;
 
     public Empleado() {
     }
 
-    public Empleado(String codigo, int id_puesto, int id, String nombres, String apellidos, String direccion, String telefono, String fecha_nacimiento) {
-        super(id, nombres, apellidos, direccion, telefono, fecha_nacimiento);
-        this.codigo = codigo;
+    public Empleado(int id_empleado, String nombres, String apellidos, String direccion, String telefono, String DPI, Boolean genero, Date fecha_nacimiento, Date fecha_inicio_labores, Date fecha_ingreso, int id_puesto) {
+        this.id_empleado = id_empleado;
+        this.nombres = nombres;
+        this.apellidos = apellidos;
+        this.direccion = direccion;
+        this.telefono = telefono;
+        this.DPI = DPI;
+        this.genero = genero;
+        this.fecha_nacimiento = fecha_nacimiento;
+        this.fecha_inicio_labores = fecha_inicio_labores;
+        this.fecha_ingreso = fecha_ingreso;
         this.id_puesto = id_puesto;
     }
-
-    public String getCodigo() {
-        return codigo;
+    
+        public int getId_empleado() {
+        return id_empleado;
     }
 
-    public void setCodigo(String codigo) {
-        this.codigo = codigo;
+    public String getNombres() {
+        return nombres;
+    }
+
+    public String getApellidos() {
+        return apellidos;
+    }
+
+    public String getDireccion() {
+        return direccion;
+    }
+
+    public String getTelefono() {
+        return telefono;
+    }
+
+    public String getDPI() {
+        return DPI;
+    }
+
+    public Boolean getGenero() {
+        return genero;
+    }
+
+    public Date getFecha_nacimiento() {
+        return fecha_nacimiento;
+    }
+
+    public Date getFecha_inicio_labores() {
+        return fecha_inicio_labores;
+    }
+
+    public Date getFecha_ingreso() {
+        return fecha_ingreso;
     }
 
     public int getId_puesto() {
         return id_puesto;
     }
+    
+     public void setId_empleado(int id_empleado) {
+        this.id_empleado = id_empleado;
+    }
+
+    public void setNombres(String nombres) {
+        this.nombres = nombres;
+    }
+
+    public void setApellidos(String apellidos) {
+        this.apellidos = apellidos;
+    }
+
+    public void setDireccion(String direccion) {
+        this.direccion = direccion;
+    }
+
+    public void setTelefono(String telefono) {
+        this.telefono = telefono;
+    }
+
+    public void setDPI(String DPI) {
+        this.DPI = DPI;
+    }
+
+    public void setGenero(Boolean genero) {
+        this.genero = genero;
+    }
+
+    public void setFecha_nacimiento(Date fecha_nacimiento) {
+        this.fecha_nacimiento = fecha_nacimiento;
+    }
+
+    public void setFecha_inicio_labores(Date fecha_inicio_labores) {
+        this.fecha_inicio_labores = fecha_inicio_labores;
+    }
+
+    public void setFecha_ingreso(Date fecha_ingreso) {
+        this.fecha_ingreso = fecha_ingreso;
+    }
 
     public void setId_puesto(int id_puesto) {
         this.id_puesto = id_puesto;
     }
+    
 
     public DefaultTableModel leer() {
         DefaultTableModel tabla = new DefaultTableModel();
@@ -72,7 +157,6 @@ public class Empleado extends Persona {
         return tabla;
     }
 
-    @Override
     public int agregar() {
         int retorno = 0;
         try {
@@ -96,7 +180,6 @@ public class Empleado extends Persona {
         return retorno;
     }
 
-    @Override
     public int modificar() {
         int retorno = 0;
         try {
@@ -121,7 +204,6 @@ public class Empleado extends Persona {
         return retorno;
     }
 
-    @Override
     public int eliminar() {
         int retorno = 0;
         try {

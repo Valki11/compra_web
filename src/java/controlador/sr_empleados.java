@@ -39,7 +39,7 @@ public class sr_empleados extends HttpServlet {
             /*   java.util.Date utilDate =request.getParameter("fecha_ingreso");  */
             /*java.sql.Date sqlDate = new java.sql.Date(utilDate.getTime()); */
             
-            empleado = new Empleado (request.getParameter("codigo"), Integer.valueOf(request.getParameter("id_puesto")), Integer.valueOf(request.getParameter("id")), request.getParameter("nombres"), request.getParameter("apellidos"), request.getParameter("direccion"),request.getParameter("telefono"),(java.sql.Date) fecha);
+            empleado = new Empleado(request.getParameter("codigo"), Integer.valueOf(request.getParameter("id_puesto")), Integer.valueOf(request.getParameter("id")), request.getParameter("nombres"), request.getParameter("apellidos"), request.getParameter("direccion"),request.getParameter("telefono"),(java.sql.Date) fecha);
             
 
             // Boton agregar 

@@ -3,10 +3,14 @@ package controlador;
 
 import java.io.IOException;
 import java.io.PrintWriter;
+import java.text.SimpleDateFormat;
+import java.time.LocalDateTime;
+import java.util.Date;
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import modelo.Ventas_detalle;
 
 /**
  *
@@ -14,6 +18,7 @@ import javax.servlet.http.HttpServletResponse;
  */
 public class sr_ventas_detalle extends HttpServlet {
 
+    Ventas_detalle ventas_detalle;
     
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
@@ -28,10 +33,34 @@ public class sr_ventas_detalle extends HttpServlet {
             out.println("<body>");
             out.println("<h1>Servlet sr_ventas_detalle at " + request.getContextPath() + "</h1>");
             out.println("</body>");
-            out.println("</html>");
+            SimpleDateFormat formatter = new SimpleDateFormat("yyyy-MM-dd");
+            Date fecha = new Date();
+
+            /*   java.util.Date utilDate =request.getParameter("fecha_ingreso");  */
+ /*java.sql.Date sqlDate = new java.sql.Date(utilDate.getTime()); */
+            ventas_detalle = new Ventas_detalle (Integer.valueOf(request.getParameter("id_venta_detalle")), Integer.valueOf(request.getParameter("id_Venta")), Integer.valueOf(request.getParameter("id_producto")), Integer.valueOf(request.getParameter("cantidad")), Integer.valueOf(request.getParameter("precio_unitario")));
+
+            // Boton agregar 
+            if ("agregar".equals(request.getParameter("btn_agregar"))) {
+                if (ventas_detalle.agregar() > 0) {
+                    response.sendRedirect("index.jsp");
+
+                } else {
+                    out.println("<h1> xxxxxxx No se Ingreso xxxxxxxxxxxx </h1>");
+                    out.println("<a href='index.jsp'>Regresar...</a>");
+                }
+            }
+
+            // Boton modificar 
+            if ("modificar".equals(request.getParameter("btn_modificar"))) {
+                if (ventas_detalle.modificar() > 0) {
+                    response.sendRedirect("index.jsp");
+
+                } else {
+                    out.println("<h1> xxxxxxx No se Modifico xxxxxxxxxxxx </h1>");
+                    out.println("<a href='index.jsp'>Regresar...</a>");
         }
     }
-
     // <editor-fold defaultstate="collapsed" desc="HttpServlet methods. Click on the + sign on the left to edit the code.">
     /**
      * Handles the HTTP <code>GET</code> method.
@@ -69,6 +98,6 @@ public class sr_ventas_detalle extends HttpServlet {
     @Override
     public String getServletInfo() {
         return "Short description";
-    }// </editor-fold>
-
-}
+    // </editor-fold>
+  }
+    

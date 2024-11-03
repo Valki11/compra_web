@@ -42,6 +42,8 @@
                                 <input type="text" name="txt_no_factura" id="txt_no_factura" class="form-control" required>
                                 <label for="lbl_serie" ><b>Serie</b></label>
                                 <input type="text" name="txt_serie" id="txt_serie" class="form-control" required>
+                                <label for="lbl_fecha_factura" ><b>Fecha Factura</b></label>
+                                <input type="text" id="fecha_factura">
                                 <label for="lbl_id_cliente" ><b>Cod. Cliente</b></label>
                                 <input type="text" name="txt_id_cliente" id="txt_id_cliente" class="form-control" required>
                                 <label for="lbl_id_empleado"><b>Cod. Empleado</b></label>
@@ -131,7 +133,7 @@
                         <th>Cod. Venta</th>
                         <th>Cod. Producto</th>
                         <th>Cantidad</th>
-                        <th>Precio Costo unitario</th>
+                        <th>Precio Unitario</th>
                     </tr>
                 </thead>
                 <tbody id="tbl_venta_detalle">
@@ -161,25 +163,32 @@
         <script type="text/javascript">
                                     function limpiarVenta() {
                                         $("#txt_id_venta").val(0);
-                                        $("#txt_no_orden_venta").val(0);
-                                        $("#txt_id_proveedor").val(0);
-                                        $("#fecha_orden").val('');
+                                        $("#txt_no_factura").val(0);
+                                        $("#txt_serie").val('');
+                                        $("#fecha_factura").val('');
+                                        $("#txt_id_cliente").val(0);
+                                        $("#txt_id_empleado").val(0);
                                         $("#fecha_ingreso").val('');
                                     }
                                     
                                     $('#tbl_venta').on('click', 'tr td', function (evt) {
-                                        var target, id_venta, no_orden_venta, id_proveedor, fecha_orden, fecha_ingreso;
+                                        var target, id_venta, no_factura, serie, fecha_factura, id_cliente, id_empleado, fecha_ingreso;
                                         target = $(event.target);
                                         id_venta = target.parent().data('id_venta');
-                                        no_orden_venta = target.parent().data('no_orden_venta');
-                                        id_proveedor = target.parent().data('id_proveedor');
-                                        fecha_orden = target.parent().data('fecha_orden');
+                                        no_factura = target.parent().data('no_factura');
+                                        serie = target.parent().data('serie');
+                                        fecha_factura = target.parent().data('fecha_factura');
+                                        id_cliente = target.parent().data('id_cliente');
+                                        id_empleado = target.parent().data('id_empleado');
                                         fecha_ingreso = target.parent().data('fecha_ingreso');
                                         $("#txt_id_venta").val(id_venta);
-                                        $("#txt_no_orden_venta").val(no_orden_venta);
-                                        $("#txt_id_proveedor").val(id_proveedor);
-                                        $("#fecha_orden").val(fecha_orden);
+                                        $("#txt_no_factura").val(no_factura);
+                                        $("#txt_serie").val(serie);
+                                        $("#fecha_factura").val(fecha_factura);
+                                        $("#txt_id_cliente").val(id_cliente);
+                                        $("#txt_id_empleado").val(id_empleado);¿
                                         $("#fecha_ingreso").val(fecha_ingreso);
+                                        
                                         $("#modal_venta").modal('show');
                                     });
                                     
@@ -192,18 +201,19 @@
                                     }
 
                                     $('#tbl_venta_detalle').on('click', 'tr td', function (evt) {
-                                        var target, id_venta_detalle, id_venta_d, producto, cantidad, costo_unitario;
+                                        var target, id_venta_detalle, id_compra_d, producto, cantidad, costo_unitario;
                                         target = $(event.target);
                                         id_venta_detalle = target.parent().data('id_venta_detalle');
-                                        id_venta_d = target.parent().data('id_venta_d');
-                                        producto = target.parent().data('nit');
-                                        cantidad = target.parent().data('direccion');
-                                        costo_unitario = target.parent().data('telefono');
+                                        id_compra_d = target.parent().data('id_compra_d');
+                                        producto = target.parent().data('producto');
+                                        cantidad = target.parent().data('cantidad');
+                                        costo_unitario = target.parent().data('costo_unitario');
                                         $("#txt_id_venta_detalle").val(id_venta_detalle);
                                         $("#txt_id_venta_d").val(id_venta_d);
                                         $("#txt_producto").val(producto);
                                         $("#txt_cantidad").val(cantidad);
                                         $("#txt_costo_unitario").val(costo_unitario);
+                                        
                                         $("#modal_venta_detalle").modal('show');
                                     });
 

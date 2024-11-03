@@ -190,9 +190,9 @@
                                         target = $(event.target);
                                         id_compra_detalle = target.parent().data('id_compra_detalle');
                                         id_compra_d = target.parent().data('id_compra_d');
-                                        producto = target.parent().data('nit');
-                                        cantidad = target.parent().data('direccion');
-                                        costo_unitario = target.parent().data('telefono');
+                                        producto = target.parent().data('producto');
+                                        cantidad = target.parent().data('cantidad');
+                                        costo_unitario = target.parent().data('cantidad');
                                         $("#txt_id_compra_detalle").val(id_compra_detalle);
                                         $("#txt_id_compra_d").val(id_compra_d);
                                         $("#txt_producto").val(producto);

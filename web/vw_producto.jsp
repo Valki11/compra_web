@@ -29,7 +29,7 @@
                     <!-- Modal content-->
                     <div class="modal-content">
                         <div class="modal-body">
-                            <form action="sr_producto" method="post" class="form-group">
+                            <form action="sr_productos" method="post" class="form-group">
                                 <label for="lbl_id_producto" ><b>ID</b></label>
                                 <input type="text" name="txt_id_producto" id="txt_id_producto" class="form-control"> 
                                 <label for="lbl_producto" ><b>Producto</b></label>

@@ -22,7 +22,7 @@
                     <!-- Modal content-->
                     <div class="modal-content">
                         <div class="modal-body">
-                            <form action="sr_proveedor" method="post" class="form-group">
+                            <form action="sr_Proveedores" method="post" class="form-group">
                                 <label for="lbl_id_proveedor" ><b>ID</b></label>
                                 <input type="text" name="txt_id_proveedor" id="txt_id_proveedor" class="form-control"> 
                                 <label for="lbl_proveedor" ><b>Proveedores</b></label>

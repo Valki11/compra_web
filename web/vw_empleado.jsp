@@ -35,7 +35,7 @@
                     <!-- Modal content-->
                     <div class="modal-content">
                         <div class="modal-body">
-                            <form action="sr_empleado" method="post" class="form-group">
+                            <form action="sr_empleados" method="post" class="form-group">
                                 <label for="lbl_id_empleado" ><b>ID</b></label>
                                 <input type="text" name="txt_id_empleado" id="txt_id_empleado" class="form-control"> 
                                 <label for="lbl_nombre" ><b>Nombres</b></label>

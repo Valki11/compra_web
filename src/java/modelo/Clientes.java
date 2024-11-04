@@ -107,19 +107,19 @@ public class Clientes {
             cn.abrir_conexion();
             String query = "SELECT * FROM clientes;";
             ResultSet consulta = cn.conexionBD.createStatement().executeQuery(query);
-            String encabezado[] = {"apellidos", "correo_electronico","fecha_ingreso","genero","id_cliente","nit","nombres","telefono"};
+            String encabezado[] = {"id_cliente","nombres", "apellidos","nit", "genero","telefono", "correo_electronico","fecha_ingreso"};
             tabla.setColumnIdentifiers(encabezado);
             String datos[] = new String[8];
             while (consulta.next()) {
-                datos[0] = consulta.getString("apellidos");
-                datos[1] = consulta.getString("correo_electronico");
-                datos[2] = consulta.getString("fecha_ingreso");
-                datos[3] = consulta.getString("genero");
-                datos[4] = consulta.getString("id_cliente");
-                datos[5] = consulta.getString("nit");
-                datos[6] = consulta.getString("nombres");
-                datos[7] = consulta.getString("telefono");
-                
+                datos[0] = consulta.getString("id_cliente");
+                datos[1] = consulta.getString("nombres");
+                datos[2] = consulta.getString("apellidos");
+                datos[3] = consulta.getString("nit");
+                datos[4] = consulta.getString("genero");
+                datos[5] = consulta.getString("telefono");
+                datos[6] = consulta.getString("correo_electronico");
+                datos[7] = consulta.getString("fecha_ingreso");
+
                 tabla.addRow(datos);
             }
 

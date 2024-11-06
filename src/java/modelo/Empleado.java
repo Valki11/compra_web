@@ -131,16 +131,16 @@ public class Empleado {
         try {
             cn = new Conexion();
             cn.abrir_conexion();
-            String query = "SELECT * FROM empleados";
+            String query = "SELECT * FROM empleados;";
             ResultSet consulta = cn.conexionBD.createStatement().executeQuery(query);
-            String encabezado[] = {"id_empleado", "nombres", "apellidos", "dirrecion", "telefono", "DPI", "genero", "fecha_nacimiento", "id_puesto","fecha_inicio_labores","fecha_ingreso"};
+            String encabezado[] = {"id_empleado", "nombres", "apellidos", "direccion", "telefono", "DPI", "genero", "fecha_nacimiento", "id_puesto","fecha_inicio_labores","fecha_ingreso"};
             tabla.setColumnIdentifiers(encabezado);
             String datos[] = new String[11];
             while (consulta.next()) {
                 datos[0] = consulta.getString("id_empleado");
                 datos[1] = consulta.getString("nombres");
                 datos[2] = consulta.getString("apellidos");
-                datos[3] = consulta.getString("dirrecion");
+                datos[3] = consulta.getString("direccion");
                 datos[4] = consulta.getString("telefono");
                 datos[5] = consulta.getString("DPI");
                 datos[6] = consulta.getString("genero");
@@ -151,7 +151,6 @@ public class Empleado {
                 tabla.addRow(datos);
 
             }
-
             cn.cerrar_conexion();
         } catch (SQLException ex) {
             System.out.println(ex.getMessage());

@@ -8,18 +8,6 @@
         <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
         <title>Empleado</title>
          <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" integrity="sha384-JcKb8q3iqJ61gNV9KGb8thSsNjpSL0n8PARn9HuZOnIxN0hoP+VmmDGMN5t9UJ0Z" crossorigin="anonymous">
-    
-         <script>
-            $(document).ready(function () {
-                $("#fecha_nacimiento").dateonpicker();
-            });
-            $(document).ready(function () {
-                $("#fecha_inicio_labores").dateonpicker();
-            });
-            $(document).ready(function () {
-                $("#fecha_ingreso").dateonpicker();
-            });
-        </script>
     </head>
     <body>
         <body>
@@ -51,13 +39,14 @@
                                 <label for="lbl_genero" ><b>Genero</b></label>
                                 <input type="text" name="txt_genero" id="txt_genero" class="form-control"required>
                                 <label for="lbl_fecha_nacimiento" ><b>Fecha Nacimiento</b></label>
-                                <input type="text" id="fecha_nacimiento">
+                                <input type="date" id="fecha_nacimiento" name="fecha">
                                 <label for="lbl_id_puesto" ><b>Cod. Puesto</b></label>
                                 <input type="text" name="txt_id_puesto" id="txt_id_puesto" class="form-control"required>
                                 <label for="lbl_inicio_laborales" ><b>Fecha Inicio Labores</b></label>
-                                <input type="text" id="fecha_inicio_laborales">
+                                <input type="date" id="fecha_inicio_laborales" name="fecha">
                                 <label for="lbl_fecha_ingreso" ><b>Fecha Ingreso</b></label>
-                                <input type="text" id="fecha_ingreso">
+                                <input type="text" id="fecha_ingreso">                                <input type="date" id="fecha_ingreso" name="fecha">
+
                                 
                                 <br>
                                 <button name="btn_agregar" id="btn_agregar"  value="agregar" class="btn btn-primary btn-lg">Agregar</button>
@@ -105,7 +94,6 @@
                             out.println("<td>" + tabla.getValueAt(t, 8) + "</td>");
                             out.println("<td>" + tabla.getValueAt(t, 9) + "</td>");
                             out.println("<td>" + tabla.getValueAt(t, 10) + "</td>");
-                            out.println("<td>" + tabla.getValueAt(t, 11) + "</td>");
                             out.println("</tr>");
                         }
                     %>

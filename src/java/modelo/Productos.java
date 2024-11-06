@@ -113,25 +113,24 @@ public class Productos {
         try {
             cn = new Conexion();
             cn.abrir_conexion();
-            String query = "SELECT * FROM productos;";
+            String query = "SELECT p.id_producto, p.producto, m.marca, p.descripcion, p.imagen, p.precio_costo, p.precio_venta, p.existencia, p.fecha_ingreso FROM productos p INNER JOIN marcas m ON p.id_marca = m.id_marca;";
             ResultSet consulta = cn.conexionBD.createStatement().executeQuery(query);
-            String encabezado[] = {"descripcion,existencia,fecha_ingreso,id_marca,id_producto,imagen,precio_costo,precio_venta,producto",};
+            String encabezado[] = {"id_producto", "producto", "marca", "descripcion", "imagen", "precio_costo", "precio_venta", "existencia", "fecha_ingreso"};
             tabla.setColumnIdentifiers(encabezado);
             String datos[] = new String[9];
             while (consulta.next()) {
-                datos[0] = consulta.getString("descripcion");
-                datos[1] = consulta.getString("existencia");
-                datos[2] = consulta.getString("fecha_ingreso");
-                datos[3] = consulta.getString("id_marca");
-                datos[4] = consulta.getString("id_producto");
-                datos[5] = consulta.getString("imagen");
-                datos[6] = consulta.getString("precio_costo");
-                datos[7] = consulta.getString("precio_venta");
-                datos[7] = consulta.getString("producto");
+                datos[0] = consulta.getString("id_producto");
+                datos[1] = consulta.getString("producto");
+                datos[2] = consulta.getString("marca");
+                datos[3] = consulta.getString("descripcion");
+                datos[4] = consulta.getString("imagen");
+                datos[5] = consulta.getString("precio_costo");
+                datos[6] = consulta.getString("precio_venta");
+                datos[7] = consulta.getString("existencia");
+                datos[8] = consulta.getString("fecha_ingreso");
                  
                 tabla.addRow(datos);
             }
-
             cn.cerrar_conexion();
         } catch (SQLException ex) {
             System.out.println(ex.getMessage());

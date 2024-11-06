@@ -8,12 +8,6 @@
         <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
         <title>Producto</title>
         <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" integrity="sha384-JcKb8q3iqJ61gNV9KGb8thSsNjpSL0n8PARn9HuZOnIxN0hoP+VmmDGMN5t9UJ0Z" crossorigin="anonymous">
-    
-        <script>
-            $(document).ready(function () {
-                $("#fecha_ingreso").dateonpicker();
-            });
-        </script>
     </head>
     <body>
         <body>
@@ -47,8 +41,8 @@
                                 <label for="lbl_existencia" ><b>Existencia</b></label>
                                 <input type="text" name="txt_existencia" id="txt_existencia" class="form-control"required>
                                 <label for="lbl_fecha_ingreso" ><b>Fecha Ingreso</b></label>
-                                <input type="text" id="fecha_ingreso">
-                                
+                                <input type="date" id="fecha_ingreso" name="fecha">
+
                                 <br>
                                 <button name="btn_agregar" id="btn_agregar"  value="agregar" class="btn btn-primary btn-lg">Agregar</button>
                                 <button name="btn_modificar" id="btn_modificar"  value="modificar" class="btn btn-success btn-lg">Modificar</button>
@@ -67,7 +61,7 @@
                     <tr>
                         <th>id</th>
                         <th>Producto</th>
-                        <th>Cod. Marca</th>
+                        <th>Marca</th>
                         <th>Descripcion</th>
                         <th>Imagen</th>
                         <th>Precio Costo</th>
@@ -77,26 +71,26 @@
                     </tr>
                 </thead>
                 <tbody id="tbl_producto">
-                    <%            Productos producto = new Productos();
+                    <% 
+                        Productos producto = new Productos();
                         DefaultTableModel tabla = new DefaultTableModel();
                         tabla = producto.leer();
                         for (int t = 0; t < tabla.getRowCount(); t++) {
-                            out.println("<tr data-id=" + tabla.getValueAt(t, 0)+ ">");
+                            out.println("<tr data-id='" + tabla.getValueAt(t, 0) + "'>");
                             out.println("<td>" + tabla.getValueAt(t, 0) + "</td>");
                             out.println("<td>" + tabla.getValueAt(t, 1) + "</td>");
                             out.println("<td>" + tabla.getValueAt(t, 2) + "</td>");
                             out.println("<td>" + tabla.getValueAt(t, 3) + "</td>");
-                            out.println("<td>" + tabla.getValueAt(t, 4) + "</td>");
+                            out.println("<td><img src='" + tabla.getValueAt(t, 4) + "' alt='Imagen del producto' width='100' /></td>");
                             out.println("<td>" + tabla.getValueAt(t, 5) + "</td>");
                             out.println("<td>" + tabla.getValueAt(t, 6) + "</td>");
                             out.println("<td>" + tabla.getValueAt(t, 7) + "</td>");
                             out.println("<td>" + tabla.getValueAt(t, 8) + "</td>");
                             out.println("</tr>");
-
                         }
                     %>
-
                 </tbody>
+
             </table>
         </div>
 

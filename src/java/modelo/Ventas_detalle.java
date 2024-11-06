@@ -74,14 +74,14 @@ public class Ventas_detalle {
             cn.abrir_conexion();
             String query = "SELECT * FROM ventas_detalle;";
             ResultSet consulta = cn.conexionBD.createStatement().executeQuery(query);
-            String encabezado[] = {"cantidad","id_producto","id_venta","id_venta_detalle","precio_unitario"};
+            String encabezado[] = {"id_venta_detalle","id_venta","id_producto","cantidad","precio_unitario"};
             tabla.setColumnIdentifiers(encabezado);
             String datos[] = new String[5];
             while (consulta.next()) {
-                datos[0] = consulta.getString("cantidad");
-                datos[1] = consulta.getString("id_producto");
-                datos[2] = consulta.getString("id_venta");
-                datos[3] = consulta.getString("id_venta_detalle");
+                datos[0] = consulta.getString("id_venta_detalle");
+                datos[1] = consulta.getString("id_venta");
+                datos[2] = consulta.getString("id_producto");
+                datos[3] = consulta.getString("cantidad");
                 datos[4] = consulta.getString("precio_unitario");
            
                 tabla.addRow(datos);

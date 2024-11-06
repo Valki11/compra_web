@@ -9,16 +9,6 @@
         <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
         <title>Compras</title>
         <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" integrity="sha384-JcKb8q3iqJ61gNV9KGb8thSsNjpSL0n8PARn9HuZOnIxN0hoP+VmmDGMN5t9UJ0Z" crossorigin="anonymous">
-
-        <script>
-            $(document).ready(function () {
-                $("#fecha_orden").datepicker();
-            });
-            
-            $(document).ready(function () {
-                $("#fecha_ingreso").datepicker();
-            });
-        </script>
     </head>
     <body>
         <%@ include file="menu.jsp" %>
@@ -42,9 +32,10 @@
                                 <label for="lbl_id_proveedor" ><b>Cod. Proveedor</b></label>
                                 <input type="text" name="txt_id_proveedor" id="txt_id_proveedor" class="form-control" required>
                                 <label for="lbl_fecha_orden" ><b>Fecha Orden</b></label>
-                                <input type="text" id="fecha_orden">
+                                <input type="date" id="fecha_orden" name="fecha">
                                 <label for="lbl_fecha_ingreso" ><b>Fecha Ingreso</b></label>
-                                <input type="text" id="fecha_ingreso">
+                                <input type="date" id="fecha_ingreso" name="fecha">
+                                
                                 <br>
                                 <button name="btn_agregar" id="btn_agregar"  value="agregar" class="btn btn-primary btn-lg">Agregar</button>
                                 <button name="btn_modificar" id="btn_modificar"  value="modificar" class="btn btn-success btn-lg">Modificar</button>

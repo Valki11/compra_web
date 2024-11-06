@@ -78,7 +78,7 @@ public class Compras_detalle {
             ResultSet consulta = cn.conexionBD.createStatement().executeQuery(query);
             String encabezado[] = {"id_compra_detalle","id_compra","id_producto","cantidad","precio_costo_unitario"};
             tabla.setColumnIdentifiers(encabezado);
-            String datos[] = new String[2];
+            String datos[] = new String[5];
             while (consulta.next()) {
                 datos[0] = consulta.getString("id_compra_detalle");
                 datos[1] = consulta.getString("id_compra");

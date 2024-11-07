@@ -8,18 +8,56 @@
     <head>
         <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
         <title>Ventas</title>
-        
+
         <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" integrity="sha384-JcKb8q3iqJ61gNV9KGb8thSsNjpSL0n8PARn9HuZOnIxN0hoP+VmmDGMN5t9UJ0Z" crossorigin="anonymous">
+        
+        <style>
+            .ver-detalles {
+                background-color: green;
+                color: white;
+                padding: 10px;
+                border: none;
+                border-radius: 5px;
+                cursor: pointer;
+              }
+        </style>
+        <script>
+            document.addEventListener("DOMContentLoaded", function () {
+                const tablaVentas = document.getElementById("tablaVentas");
+                const tablaDetalles = document.getElementById("tablaDetalles");
+
+                tablaVentas.addEventListener("click", function (event) {
+                    const boton = event.target.closest(".ver-detalles"); // Verifica si se hizo clic en un botón
+                    if (!boton)
+                        return; // Si no es un botón de "Ver Detalles", salir
+
+                    document.getElementById("divDetalle").style.display = "block";
+                    const fila = boton.closest("tr");
+                    const ventaId = fila.getAttribute("data-id");
+
+                    // Filtra y muestra los detalles correspondientes
+                    const detallesFilas = tablaDetalles.querySelectorAll("tbody tr");
+                    detallesFilas.forEach(filaDetalle => {
+                        if (filaDetalle.getAttribute("data-venta") === ventaId) {
+                            filaDetalle.style.display = ""; // Muestra la fila
+                        } else {
+                            filaDetalle.style.display = "none"; // Oculta la fila
+                        }
+                    });
+
+                    // Asegúrate de mostrar la tabla de detalles si estaba oculta
+                    tablaDetalles.classList.remove("hidden");
+                });
+            });
+        </script>
     </head>
     <body>
         <%@ include file="menu.jsp" %>
-        <h1>Formulario Vetnas</h1>
+        <h1>Formulario Ventas</h1>
         <button type="button" name="btn_nuevo" id="btn_nuevo" class="btn btn-info btn-lg" data-toggle="modal" data-target="#modal_venta" onclick="limpiarVenta()">Nueva Venta</button>
-        <br>
-        <button type="button" name="btn_nuevo_detalle" id="btn_nuevo_detalle" class="btn btn-info btn-lg" data-toggle="modal" data-target="#modal_venta_detalle" onclick="limpiarDetalle()">Agregar Detalle</button>
-        
+
         <div class="container">
-            
+
             <div class="modal fade" id="modal_venta" role="dialog">
                 <div class="modal-dialog">
                     <!-- Modal content-->
@@ -81,17 +119,18 @@
 
                 </div>
             </div>
-      
-            <table class="table table-striped">
+
+            <table id="tablaVentas" class="table table-striped">
                 <thead>
                     <tr>
                         <th>Id</th>
                         <th>No. Factura</th>
                         <th>Serie</th>
                         <th>Fecha Factura</th>
-                        <th>Cod. Cliente</th>
-                        <th>Cod. Empleado</th>
+                        <th>Cliente</th>
+                        <th>Empleado</th>
                         <th>Fecha Ingreso</th>
+                        <th colspan="2">Acciones</th>
                     </tr>
                 </thead>
                 <tbody id="tbl_venta">
@@ -107,6 +146,7 @@
                             out.println("<td>" + tabla.getValueAt(t, 4) + "</td>");
                             out.println("<td>" + tabla.getValueAt(t, 5) + "</td>");
                             out.println("<td>" + tabla.getValueAt(t, 6) + "</td>");
+                            out.println("<td><button class='ver-detalles'>Ver Detalles</button></td>");
                             out.println("</tr>");
 
                         }
@@ -114,36 +154,36 @@
 
                 </tbody>
             </table> <br>
-                    
-            <h2>Detalles de la venta</h2>
-            <table class="table table-striped">
-                <thead>
-                    <tr>
-                        <th>Id</th>
-                        <th>Cod. Venta</th>
-                        <th>Cod. Producto</th>
-                        <th>Cantidad</th>
-                        <th>Precio Unitario</th>
-                    </tr>
-                </thead>
-                <tbody id="tbl_venta_detalle">
-                    <% Ventas_detalle venta_detalle = new Ventas_detalle();
-                        DefaultTableModel tabla_detalle = new DefaultTableModel();
-                        tabla_detalle = venta_detalle.leer();
-                        for (int t = 0; t < tabla_detalle.getRowCount(); t++) {
-                            out.println("<tr data-id=" + tabla_detalle.getValueAt(t, 0) + ">");
-                            out.println("<td>" + tabla_detalle.getValueAt(t, 0) + "</td>");
-                            out.println("<td>" + tabla_detalle.getValueAt(t, 1) + "</td>");
-                            out.println("<td>" + tabla_detalle.getValueAt(t, 2) + "</td>");
-                            out.println("<td>" + tabla_detalle.getValueAt(t, 3) + "</td>");
-                            out.println("<td>" + tabla_detalle.getValueAt(t, 4) + "</td>");
-                            out.println("</tr>");
 
-                        }
-                    %>
+            <div id="divDetalle" style="display: none">
+                <h2>Detalles de la venta</h2>
+                <br>
+                <button type="button" name="btn_nuevo_detalle" id="btn_nuevo_detalle" class="btn btn-info btn-lg" data-toggle="modal" data-target="#modal_venta_detalle" onclick="limpiarDetalle()">Agregar Detalle</button>
+                <table id="tablaDetalles" class="hidden table table-striped">
+                    <thead>
+                        <tr>
+                            <th>Producto</th>
+                            <th>Cantidad</th>
+                            <th>Precio Unitario</th>
+                        </tr>
+                    </thead>
+                    <tbody id="tbl_venta_detalle">
+                        <% Ventas_detalle venta_detalle = new Ventas_detalle();
+                            DefaultTableModel tabla_detalle = new DefaultTableModel();
+                            tabla_detalle = venta_detalle.leer();
+                            for (int t = 0; t < tabla_detalle.getRowCount(); t++) {
+                                out.println("<tr data-venta=" + tabla_detalle.getValueAt(t, 1) + ">");
+                                out.println("<td>" + tabla_detalle.getValueAt(t, 2) + "</td>");
+                                out.println("<td>" + tabla_detalle.getValueAt(t, 3) + "</td>");
+                                out.println("<td>" + tabla_detalle.getValueAt(t, 4) + "</td>");
+                                out.println("</tr>");
 
-                </tbody>
-            </table>
+                            }
+                        %>
+
+                    </tbody>
+                </table>
+            </div>
         </div>
 
 
@@ -160,28 +200,8 @@
                                         $("#txt_id_empleado").val(0);
                                         $("#fecha_ingreso").val('');
                                     }
-                                    
-                                    $('#tbl_venta').on('click', 'tr td', function (evt) {
-                                        var target, id_venta, no_factura, serie, fecha_factura, id_cliente, id_empleado, fecha_ingreso;
-                                        target = $(event.target);
-                                        id_venta = target.parent().data('id_venta');
-                                        no_factura = target.parent().data('no_factura');
-                                        serie = target.parent().data('serie');
-                                        fecha_factura = target.parent().data('fecha_factura');
-                                        id_cliente = target.parent().data('id_cliente');
-                                        id_empleado = target.parent().data('id_empleado');
-                                        fecha_ingreso = target.parent().data('fecha_ingreso');
-                                        $("#txt_id_venta").val(id_venta);
-                                        $("#txt_no_factura").val(no_factura);
-                                        $("#txt_serie").val(serie);
-                                        $("#fecha_factura").val(fecha_factura);
-                                        $("#txt_id_cliente").val(id_cliente);
-                                        $("#txt_id_empleado").val(id_empleado);
-                                        $("#fecha_ingreso").val(fecha_ingreso);
-                                        
-                                        $("#modal_venta").modal('show');
-                                    });
-                                    
+
+                           
                                     function limpiarDetalle() {
                                         $("#txt_id_venta_detalle").val(0);
                                         $("#txt_id_venta_d").val(0);
@@ -203,7 +223,7 @@
                                         $("#txt_producto").val(producto);
                                         $("#txt_cantidad").val(cantidad);
                                         $("#txt_costo_unitario").val(costo_unitario);
-                                        
+
                                         $("#modal_venta_detalle").modal('show');
                                     });
 

@@ -131,7 +131,8 @@ public class Empleado {
         try {
             cn = new Conexion();
             cn.abrir_conexion();
-            String query = "SELECT * FROM empleados;";
+            String query = "SELECT e.id_empleado, e.nombres, e.apellidos, e.direccion, e.telefono, e.DPI, CASE e.genero WHEN 1 THEN 'Hombre' ELSE 'Mujer' END AS genero, e.fecha_nacimiento, p.puesto as id_puesto, e.fecha_inicio_labores, e.fecha_ingreso "
+                    + "FROM empleados e INNER JOIN puestos p ON e.id_puesto = p.id_puesto;";
             ResultSet consulta = cn.conexionBD.createStatement().executeQuery(query);
             String encabezado[] = {"id_empleado", "nombres", "apellidos", "direccion", "telefono", "DPI", "genero", "fecha_nacimiento", "id_puesto","fecha_inicio_labores","fecha_ingreso"};
             tabla.setColumnIdentifiers(encabezado);

@@ -105,7 +105,7 @@ public class Clientes {
         try {
             cn = new Conexion();
             cn.abrir_conexion();
-            String query = "SELECT * FROM clientes;";
+            String query = "SELECT id_cliente, nombres, apellidos, nit, CASE genero WHEN 1 THEN 'Hombre' ELSE 'Mujer' END as genero, telefono, correo_electronico, fecha_ingreso FROM clientes;";
             ResultSet consulta = cn.conexionBD.createStatement().executeQuery(query);
             String encabezado[] = {"id_cliente","nombres", "apellidos","nit", "genero","telefono", "correo_electronico","fecha_ingreso"};
             tabla.setColumnIdentifiers(encabezado);

@@ -96,7 +96,8 @@ public class Ventas {
         try {
             cn = new Conexion();
             cn.abrir_conexion();
-            String query = "SELECT * FROM ventas;";
+            String query = "SELECT v.id_venta, v.no_factura, v.serie, v.fecha_factura,CONCAT(c.nombres, ' ', c.apellidos) as id_cliente, CONCAT(e.nombres, ' ', e.apellidos) as id_empleado, v.fecha_ingreso"
+                    + " FROM ventas v INNER JOIN clientes c ON v.id_cliente = c.id_cliente INNER JOIN empleados e ON v.id_empleado = e.id_empleado;";
             ResultSet consulta = cn.conexionBD.createStatement().executeQuery(query);
             String encabezado[] = {"id_venta", "no_factura","serie","fecha_factura","id_cliente","id_empleado","fecha_ingreso"};
             tabla.setColumnIdentifiers(encabezado);

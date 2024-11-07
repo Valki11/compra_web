@@ -75,7 +75,7 @@ public class Compras {
         try {
             cn = new Conexion();
             cn.abrir_conexion();
-            String query = "SELECT * FROM compras;";
+            String query = "SELECT c.id_compra, c.no_orden_compra, p.proveedor as id_proveedor, c.fecha_orden, c.fecha_ingreso FROM compras c INNER JOIN proveedores p ON c.id_proveedor = p.id_proveedor;";
             ResultSet consulta = cn.conexionBD.createStatement().executeQuery(query);
             String encabezado[] = {"id_compra", "no_orden_compra","id_proveedor","fecha_orden","fecha_ingreso"};
             tabla.setColumnIdentifiers(encabezado);

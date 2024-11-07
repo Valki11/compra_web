@@ -72,9 +72,10 @@ public class Ventas_detalle {
         try {
             cn = new Conexion();
             cn.abrir_conexion();
-            String query = "SELECT * FROM ventas_detalle;";
+            String query = "SELECT vd.id_venta_detalle, vd.id_venta, p.producto as id_producto, vd.cantidad, vd.precio_unitario "
+                    + "FROM ventas_detalle vd INNER JOIN productos p ON vd.id_producto = p.id_producto;";
             ResultSet consulta = cn.conexionBD.createStatement().executeQuery(query);
-            String encabezado[] = {"id_venta_detalle","id_venta","id_producto","cantidad","precio_unitario"};
+            String encabezado[] = {"id_venta_detalle", "id_venta","id_producto","cantidad","precio_unitario"};
             tabla.setColumnIdentifiers(encabezado);
             String datos[] = new String[5];
             while (consulta.next()) {

@@ -72,7 +72,7 @@
                         <th>DPI</th>
                         <th>Genero</th>
                         <th>Fecha Naciemiento</th>
-                        <th>Cod. Puesto</th>
+                        <th>Puesto</th>
                         <th>Fecha Inicio Laborales</th>
                         <th>Fecha Ingreso</th>
                     </tr>

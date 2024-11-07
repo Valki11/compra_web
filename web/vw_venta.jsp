@@ -10,7 +10,7 @@
         <title>Ventas</title>
 
         <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" integrity="sha384-JcKb8q3iqJ61gNV9KGb8thSsNjpSL0n8PARn9HuZOnIxN0hoP+VmmDGMN5t9UJ0Z" crossorigin="anonymous">
-        
+
         <style>
             .ver-detalles {
                 background-color: green;
@@ -19,7 +19,23 @@
                 border: none;
                 border-radius: 5px;
                 cursor: pointer;
-              }
+            }
+            .gestionar {
+                background-color: orange;
+                color: white;
+                padding: 10px;
+                border: none;
+                border-radius: 5px;
+                cursor: pointer;
+            }
+            .gestionar-detalle{
+                background-color: orange;
+                color: white;
+                padding: 10px;
+                border: none;
+                border-radius: 5px;
+                cursor: pointer;
+            }
         </style>
         <script>
             document.addEventListener("DOMContentLoaded", function () {
@@ -130,7 +146,7 @@
                         <th>Cliente</th>
                         <th>Empleado</th>
                         <th>Fecha Ingreso</th>
-                        <th colspan="2">Acciones</th>
+                        <th colspan="2" style="text-align: center;">Acciones</th>
                     </tr>
                 </thead>
                 <tbody id="tbl_venta">
@@ -147,6 +163,7 @@
                             out.println("<td>" + tabla.getValueAt(t, 5) + "</td>");
                             out.println("<td>" + tabla.getValueAt(t, 6) + "</td>");
                             out.println("<td><button class='ver-detalles'>Ver Detalles</button></td>");
+                            out.println("<td><button class='gestionar'>Gestionar</button></td>");
                             out.println("</tr>");
 
                         }
@@ -165,6 +182,7 @@
                             <th>Producto</th>
                             <th>Cantidad</th>
                             <th>Precio Unitario</th>
+                            <th style="text-align: center;">Acciones</th>
                         </tr>
                     </thead>
                     <tbody id="tbl_venta_detalle">
@@ -176,6 +194,7 @@
                                 out.println("<td>" + tabla_detalle.getValueAt(t, 2) + "</td>");
                                 out.println("<td>" + tabla_detalle.getValueAt(t, 3) + "</td>");
                                 out.println("<td>" + tabla_detalle.getValueAt(t, 4) + "</td>");
+                                out.println("<td><button class='gestionar-detalle'>Gestionar</button></td>");
                                 out.println("</tr>");
 
                             }
@@ -191,41 +210,65 @@
         <script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.1/dist/umd/popper.min.js" integrity="sha384-9/reFTGAW83EW2RDu2S0VKaIzap3H66lZH81PoYlFhbGU+6BZp6G7niu735Sk7lN" crossorigin="anonymous"></script>
         <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js" integrity="sha384-B4gt1jrGC7Jh4AgTPSdUtOBvfO8shuf57BaghqFfPlYxofvL8/KUEfYiJOMMV+rV" crossorigin="anonymous"></script>
         <script type="text/javascript">
-                                    function limpiarVenta() {
-                                        $("#txt_id_venta").val(0);
-                                        $("#txt_no_factura").val(0);
-                                        $("#txt_serie").val('');
-                                        $("#fecha_factura").val('');
-                                        $("#txt_id_cliente").val(0);
-                                        $("#txt_id_empleado").val(0);
-                                        $("#fecha_ingreso").val('');
-                                    }
+                    function limpiarVenta() {
+                        $("#txt_id_venta").val(0);
+                        $("#txt_no_factura").val(0);
+                        $("#txt_serie").val('');
+                        $("#fecha_factura").val('');
+                        $("#txt_id_cliente").val(0);
+                        $("#txt_id_empleado").val(0);
+                        $("#fecha_ingreso").val('');
+                    }
 
-                           
-                                    function limpiarDetalle() {
-                                        $("#txt_id_venta_detalle").val(0);
-                                        $("#txt_id_venta_d").val(0);
-                                        $("#txt_producto").val(0);
-                                        $("#txt_cantidad").val(0);
-                                        $("#txt_costo_unitario").val('');
-                                    }
+                    document.querySelectorAll('.gestionar').forEach(button => {
+                        button.addEventListener('click', function () {
+                            var target, id_venta, no_factura, serie, fecha_factura, id_cliente, id_empleado, fecha_ingreso;
+                            target = $(event.target);
+                            id_venta = target.parent().data('id_venta');
+                            no_factura = target.parent().data('no_factura');
+                            serie = target.parent().data('serie');
+                            fecha_factura = target.parent().data('fecha_factura');
+                            id_cliente = target.parent().data('id_cliente');
+                            id_empleado = target.parent().data('id_empleado');
+                            fecha_ingreso = target.parent().data('fecha_ingreso');
+                            $("#txt_id_venta").val(id_venta);
+                            $("#txt_no_factura").val(no_factura);
+                            $("#txt_serie").val(serie);
+                            $("#fecha_factura").val(fecha_factura);
+                            $("#txt_id_cliente").val(id_cliente);
+                            $("#txt_id_empleado").val(id_empleado);
+                            $("#fecha_ingreso").val(fecha_ingreso);
 
-                                    $('#tbl_venta_detalle').on('click', 'tr td', function (evt) {
-                                        var target, id_venta_detalle, id_compra_d, producto, cantidad, costo_unitario;
-                                        target = $(event.target);
-                                        id_venta_detalle = target.parent().data('id_venta_detalle');
-                                        id_compra_d = target.parent().data('id_compra_d');
-                                        producto = target.parent().data('producto');
-                                        cantidad = target.parent().data('cantidad');
-                                        costo_unitario = target.parent().data('costo_unitario');
-                                        $("#txt_id_venta_detalle").val(id_venta_detalle);
-                                        $("#txt_id_venta_d").val(id_venta_d);
-                                        $("#txt_producto").val(producto);
-                                        $("#txt_cantidad").val(cantidad);
-                                        $("#txt_costo_unitario").val(costo_unitario);
+                            $("#modal_venta").modal('show');
+                        });
+                    });
 
-                                        $("#modal_venta_detalle").modal('show');
-                                    });
+                    function limpiarDetalle() {
+                        $("#txt_id_venta_detalle").val(0);
+                        $("#txt_id_venta_d").val(0);
+                        $("#txt_producto").val(0);
+                        $("#txt_cantidad").val(0);
+                        $("#txt_costo_unitario").val('');
+                    }
+
+                    document.querySelectorAll('.gestionar-detalle').forEach(button => {
+                        button.addEventListener('click', function () {
+                            var target, id_venta_detalle, id_compra_d, producto, cantidad, costo_unitario;
+                            target = $(event.target);
+                            id_venta_detalle = target.parent().data('id_venta_detalle');
+                            id_compra_d = target.parent().data('id_compra_d');
+                            producto = target.parent().data('producto');
+                            cantidad = target.parent().data('cantidad');
+                            costo_unitario = target.parent().data('costo_unitario');
+                            $("#txt_id_venta_detalle").val(id_venta_detalle);
+                            $("#txt_id_venta_d").val(id_compra_d);
+                            $("#txt_producto").val(producto);
+                            $("#txt_cantidad").val(cantidad);
+                            $("#txt_costo_unitario").val(costo_unitario);
+
+                            $("#modal_venta_detalle").modal('show');
+                        });
+                    });
 
         </script>
     </body>

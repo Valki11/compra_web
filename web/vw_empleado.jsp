@@ -7,10 +7,21 @@
     <head>
         <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
         <title>Empleado</title>
-         <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" integrity="sha384-JcKb8q3iqJ61gNV9KGb8thSsNjpSL0n8PARn9HuZOnIxN0hoP+VmmDGMN5t9UJ0Z" crossorigin="anonymous">
+        <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" integrity="sha384-JcKb8q3iqJ61gNV9KGb8thSsNjpSL0n8PARn9HuZOnIxN0hoP+VmmDGMN5t9UJ0Z" crossorigin="anonymous">
+
+        <style>
+            .gestionar {
+                background-color: orange;
+                color: white;
+                padding: 10px;
+                border: none;
+                border-radius: 5px;
+                cursor: pointer;
+            }
+        </style>
     </head>
     <body>
-        <body>
+    <body>
         <%@ include file="menu.jsp" %>
         <h1>Formulario Empleado</h1>
         <button type="button" name="btn_nuevo" id="btn_nuevo" class="btn btn-info btn-lg" data-toggle="modal" data-target="#modal_empleado" onclick="limpiar()">Nuevo</button>
@@ -47,7 +58,7 @@
                                 <label for="lbl_fecha_ingreso" ><b>Fecha Ingreso</b></label>
                                 <input type="text" id="fecha_ingreso">                                <input type="date" id="fecha_ingreso" name="fecha">
 
-                                
+
                                 <br>
                                 <button name="btn_agregar" id="btn_agregar"  value="agregar" class="btn btn-primary btn-lg">Agregar</button>
                                 <button name="btn_modificar" id="btn_modificar"  value="modificar" class="btn btn-success btn-lg">Modificar</button>
@@ -75,6 +86,7 @@
                         <th>Puesto</th>
                         <th>Fecha Inicio Laborales</th>
                         <th>Fecha Ingreso</th>
+                        <th style="text-align: center;">Acciones</th>
                     </tr>
                 </thead>
                 <tbody id="tbl_empleado">
@@ -82,7 +94,7 @@
                         DefaultTableModel tabla = new DefaultTableModel();
                         tabla = empleado.leer();
                         for (int t = 0; t < tabla.getRowCount(); t++) {
-                            out.println("<tr data-id=" + tabla.getValueAt(t, 0)+ ">");
+                            out.println("<tr data-id=" + tabla.getValueAt(t, 0) + ">");
                             out.println("<td>" + tabla.getValueAt(t, 0) + "</td>");
                             out.println("<td>" + tabla.getValueAt(t, 1) + "</td>");
                             out.println("<td>" + tabla.getValueAt(t, 2) + "</td>");
@@ -94,6 +106,7 @@
                             out.println("<td>" + tabla.getValueAt(t, 8) + "</td>");
                             out.println("<td>" + tabla.getValueAt(t, 9) + "</td>");
                             out.println("<td>" + tabla.getValueAt(t, 10) + "</td>");
+                            out.println("<td><button class='gestionar'>Gestionar</button></td>");
                             out.println("</tr>");
                         }
                     %>
@@ -121,34 +134,36 @@
                                         $("#fecha_ingreso").val('');
                                     }
 
-                                    $('#tbl_empleado').on('click', 'tr td', function (evt) {
-                                        var target, id_empleado, nombres, apellidos, direccion, telefono, DPI, genero, fecha_nacimiento, id_puesto, fecha_inicio, fecha_ingreso;
-                                        target = $(event.target);
-                                        id_empleado = target.parent().data('id_empleado');
-                                        nombres = target.parent().data('nombres');
-                                        apellidos = target.parent().data('apellidos');
-                                        direccion = target.parent().data('NIT');
-                                        telefono = target.parent().data('telefono');
-                                        DPI = target.parent().data('DPI');
-                                        genero = target.parent().data('genero');
-                                        fecha_nacimiento = target.parent().data('fecha_nacimiento');
-                                        id_puesto = target.parent().data('id_puesto');
-                                        fecha_inicio = target.parent().data('fecha_inicio');
-                                        fecha_ingreso = target.parent().data('fecha_ingreso');
-                                        
-                                        $("#txt_id_empleado").val(id_empleado);
-                                        $("#txt_nombre").val(id_empleado);
-                                        $("#txt_apellido").val(apellidos);
-                                        $("#txt_direccion").val(direccion);
-                                        $("#txt_telefono").val(telefono);
-                                        $("#txt_dpi").val(DPI);
-                                        $("#txt_genero").val(genero);
-                                        $("#fecha_nacimiento").val(fecha_nacimiento);
-                                        $("#txt_id_puesto").val(id_puesto);
-                                        $("#fecha_inicio_laborales").val(fecha_inicio);
-                                        $("#fecha_ingreso").val(fecha_ingreso);
-                                        
-                                        $("#modal_empleado").modal('show');
+                                    document.querySelectorAll('.gestionar').forEach(button => {
+                                        button.addEventListener('click', function () {
+                                            var target, id_empleado, nombres, apellidos, direccion, telefono, DPI, genero, fecha_nacimiento, id_puesto, fecha_inicio, fecha_ingreso;
+                                            target = $(event.target);
+                                            id_empleado = target.parent().data('id_empleado');
+                                            nombres = target.parent().data('nombres');
+                                            apellidos = target.parent().data('apellidos');
+                                            direccion = target.parent().data('NIT');
+                                            telefono = target.parent().data('telefono');
+                                            DPI = target.parent().data('DPI');
+                                            genero = target.parent().data('genero');
+                                            fecha_nacimiento = target.parent().data('fecha_nacimiento');
+                                            id_puesto = target.parent().data('id_puesto');
+                                            fecha_inicio = target.parent().data('fecha_inicio');
+                                            fecha_ingreso = target.parent().data('fecha_ingreso');
+
+                                            $("#txt_id_empleado").val(id_empleado);
+                                            $("#txt_nombre").val(id_empleado);
+                                            $("#txt_apellido").val(apellidos);
+                                            $("#txt_direccion").val(direccion);
+                                            $("#txt_telefono").val(telefono);
+                                            $("#txt_dpi").val(DPI);
+                                            $("#txt_genero").val(genero);
+                                            $("#fecha_nacimiento").val(fecha_nacimiento);
+                                            $("#txt_id_puesto").val(id_puesto);
+                                            $("#fecha_inicio_laborales").val(fecha_inicio);
+                                            $("#fecha_ingreso").val(fecha_ingreso);
+
+                                            $("#modal_empleado").modal('show');
+                                        });
                                     });
 
         </script>

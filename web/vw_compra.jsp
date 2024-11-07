@@ -18,6 +18,22 @@
                 border-radius: 5px;
                 cursor: pointer;
             }
+            .gestionar {
+                background-color: orange;
+                color: white;
+                padding: 10px;
+                border: none;
+                border-radius: 5px;
+                cursor: pointer;
+            }
+            .gestionar-detalle{
+                background-color: orange;
+                color: white;
+                padding: 10px;
+                border: none;
+                border-radius: 5px;
+                cursor: pointer;
+            }
         </style>
         <script>
             document.addEventListener("DOMContentLoaded", function () {
@@ -124,6 +140,7 @@
                         <th>Proveedor</th>
                         <th>Fecha Orden</th>
                         <th>Fecha Ingreso</th>
+                        <th colspan="2" style="text-align: center;">Acciones</th>
                     </tr>
                 </thead>
                 <tbody id="tbl_compra">
@@ -138,6 +155,7 @@
                             out.println("<td>" + tabla.getValueAt(t, 3) + "</td>");
                             out.println("<td>" + tabla.getValueAt(t, 4) + "</td>");
                             out.println("<td><button class='ver-detalles'>Ver Detalles</button></td>");
+                            out.println("<td><button class='gestionar'>Gestionar</button></td>");
                             out.println("</tr>");
 
                         }
@@ -156,6 +174,7 @@
                             <th>Producto</th>
                             <th>Cantidad</th>
                             <th>Precio Costo unitario</th>
+                            <th style="text-align: center;">Acciones</th>
                         </tr>
                     </thead>
                     <tbody id="tbl_compra_detalle">
@@ -167,6 +186,7 @@
                                 out.println("<td>" + tabla_detalle.getValueAt(t, 2) + "</td>");
                                 out.println("<td>" + tabla_detalle.getValueAt(t, 3) + "</td>");
                                 out.println("<td>" + tabla_detalle.getValueAt(t, 4) + "</td>");
+                                out.println("<td><button class='gestionar-detalle'>Gestionar</button></td>");
                                 out.println("</tr>");
 
                             }
@@ -182,37 +202,57 @@
         <script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.1/dist/umd/popper.min.js" integrity="sha384-9/reFTGAW83EW2RDu2S0VKaIzap3H66lZH81PoYlFhbGU+6BZp6G7niu735Sk7lN" crossorigin="anonymous"></script>
         <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js" integrity="sha384-B4gt1jrGC7Jh4AgTPSdUtOBvfO8shuf57BaghqFfPlYxofvL8/KUEfYiJOMMV+rV" crossorigin="anonymous"></script>
         <script type="text/javascript">
-                                    function limpiarCompra() {
-                                        $("#txt_id_compra").val(0);
-                                        $("#txt_no_orden_compra").val(0);
-                                        $("#txt_id_proveedor").val(0);
-                                        $("#fecha_orden").val('');
-                                        $("#fecha_ingreso").val('');
-                                    }
+                    function limpiarCompra() {
+                        $("#txt_id_compra").val(0);
+                        $("#txt_no_orden_compra").val(0);
+                        $("#txt_id_proveedor").val(0);
+                        $("#fecha_orden").val('');
+                        $("#fecha_ingreso").val('');
+                    }
 
-                                    function limpiarDetalle() {
-                                        $("#txt_id_compra_detalle").val(0);
-                                        $("#txt_id_compra_d").val(0);
-                                        $("#txt_producto").val(0);
-                                        $("#txt_cantidad").val(0);
-                                        $("#txt_costo_unitario").val('');
-                                    }
+                    document.querySelectorAll('.gestionar').forEach(button => {
+                        button.addEventListener('click', function () {
+                            var target, id_compra, no_orden_compra, id_proveedor, fecha_orden, fecha_ingreso;
+                            target = $(event.target);
+                            id_compra = target.parent().data('id_compra');
+                            no_orden_compra = target.parent().data('no_orden_compra');
+                            id_proveedor = target.parent().data('id_proveedor');
+                            fecha_orden = target.parent().data('fecha_orden');
+                            fecha_ingreso = target.parent().data('fecha_ingreso');
+                            $("#txt_id_compra").val(id_compra);
+                            $("#txt_no_orden_compra").val(no_orden_compra);
+                            $("#txt_id_proveedor").val(id_proveedor);
+                            $("#fecha_orden").val(fecha_orden);
+                            $("#fecha_ingreso").val(fecha_ingreso);
+                            $("#modal_compra").modal('show');
+                        });
+                    });
 
-                                    $('#tbl_compra_detalle').on('click', 'tr td', function (evt) {
-                                        var target, id_compra_detalle, id_compra_d, producto, cantidad, costo_unitario;
-                                        target = $(event.target);
-                                        id_compra_detalle = target.parent().data('id_compra_detalle');
-                                        id_compra_d = target.parent().data('id_compra_d');
-                                        producto = target.parent().data('producto');
-                                        cantidad = target.parent().data('cantidad');
-                                        costo_unitario = target.parent().data('cantidad');
-                                        $("#txt_id_compra_detalle").val(id_compra_detalle);
-                                        $("#txt_id_compra_d").val(id_compra_d);
-                                        $("#txt_producto").val(producto);
-                                        $("#txt_cantidad").val(cantidad);
-                                        $("#txt_costo_unitario").val(costo_unitario);
-                                        $("#modal_compra_detalle").modal('show');
-                                    });
+                    function limpiarDetalle() {
+                        $("#txt_id_compra_detalle").val(0);
+                        $("#txt_id_compra_d").val(0);
+                        $("#txt_producto").val(0);
+                        $("#txt_cantidad").val(0);
+                        $("#txt_costo_unitario").val('');
+                    }
+
+                    document.querySelectorAll('.gestionar-detalle').forEach(button => {
+                        button.addEventListener('click', function () {
+                            var target, id_compra_detalle, id_compra_d, producto, cantidad, costo_unitario;
+                            target = $(event.target);
+                            id_compra_detalle = target.parent().data('id_compra_detalle');
+                            id_compra_d = target.parent().data('id_compra_d');
+                            producto = target.parent().data('producto');
+                            cantidad = target.parent().data('cantidad');
+                            costo_unitario = target.parent().data('cantidad');
+                            $("#txt_id_compra_detalle").val(id_compra_detalle);
+                            $("#txt_id_compra_d").val(id_compra_d);
+                            $("#txt_producto").val(producto);
+                            $("#txt_cantidad").val(cantidad);
+                            $("#txt_costo_unitario").val(costo_unitario);
+                            $("#modal_compra_detalle").modal('show');
+                        });
+                    });
 
         </script>
     </body>

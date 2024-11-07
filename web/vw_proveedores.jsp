@@ -8,6 +8,16 @@
         <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
         <title>Proveedores</title>
         <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" integrity="sha384-JcKb8q3iqJ61gNV9KGb8thSsNjpSL0n8PARn9HuZOnIxN0hoP+VmmDGMN5t9UJ0Z" crossorigin="anonymous">
+        <style>
+            .gestionar {
+                background-color: orange;
+                color: white;
+                padding: 10px;
+                border: none;
+                border-radius: 5px;
+                cursor: pointer;
+            }
+        </style>
     </head>
     <body>
         <%@ include file="menu.jsp" %>
@@ -54,6 +64,7 @@
                         <th>Nit</th>
                         <th>Dirección</th>
                         <th>Telefono</th>
+                        <th style="text-align: center;">Acciones</th>
                     </tr>
                 </thead>
                 <tbody id="tbl_proveedor">
@@ -61,12 +72,13 @@
                         DefaultTableModel tabla = new DefaultTableModel();
                         tabla = proveedor.leer();
                         for (int t = 0; t < tabla.getRowCount(); t++) {
-                            out.println("<tr data-id=" + tabla.getValueAt(t, 0)+ ">");
+                            out.println("<tr data-id=" + tabla.getValueAt(t, 0) + ">");
                             out.println("<td>" + tabla.getValueAt(t, 0) + "</td>");
                             out.println("<td>" + tabla.getValueAt(t, 1) + "</td>");
                             out.println("<td>" + tabla.getValueAt(t, 2) + "</td>");
                             out.println("<td>" + tabla.getValueAt(t, 3) + "</td>");
                             out.println("<td>" + tabla.getValueAt(t, 4) + "</td>");
+                            out.println("<td><button class='gestionar'>Gestionar</button></td>");
                             out.println("</tr>");
 
                         }
@@ -89,20 +101,22 @@
                                         $("#txt_telefono").val('');
                                     }
 
-                                    $('#tbl_proveedor').on('click', 'tr td', function (evt) {
-                                        var target, id_proveedor, proveedor, nit, direccion, telefono;
-                                        target = $(event.target);
-                                        id_proveedor = target.parent().data('id_proveedor');
-                                        proveedor = target.parent().data('proveedor');
-                                        nit = target.parent().data('nit');
-                                        direccion = target.parent().data('direccion');
-                                        telefono = target.parent().data('telefono');
-                                        $("#txt_id_proveedor").val(id_proveedor);
-                                        $("#txt_proveedor").val(proveedor);
-                                        $("#txt_nit").val(nit);
-                                        $("#txt_direccion").val(direccion);
-                                        $("#txt_telefono").val(telefono);
-                                        $("#modal_proveedor").modal('show');
+                                    document.querySelectorAll('.gestionar').forEach(button => {
+                                        button.addEventListener('click', function () {
+                                            var target, id_proveedor, proveedor, nit, direccion, telefono;
+                                            target = $(event.target);
+                                            id_proveedor = target.parent().data('id_proveedor');
+                                            proveedor = target.parent().data('proveedor');
+                                            nit = target.parent().data('nit');
+                                            direccion = target.parent().data('direccion');
+                                            telefono = target.parent().data('telefono');
+                                            $("#txt_id_proveedor").val(id_proveedor);
+                                            $("#txt_proveedor").val(proveedor);
+                                            $("#txt_nit").val(nit);
+                                            $("#txt_direccion").val(direccion);
+                                            $("#txt_telefono").val(telefono);
+                                            $("#modal_proveedor").modal('show');
+                                        });
                                     });
 
         </script>

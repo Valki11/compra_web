@@ -8,9 +8,19 @@
         <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
         <title>Producto</title>
         <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" integrity="sha384-JcKb8q3iqJ61gNV9KGb8thSsNjpSL0n8PARn9HuZOnIxN0hoP+VmmDGMN5t9UJ0Z" crossorigin="anonymous">
+        <style>
+            .gestionar {
+                background-color: orange;
+                color: white;
+                padding: 10px;
+                border: none;
+                border-radius: 5px;
+                cursor: pointer;
+            }
+        </style>
     </head>
     <body>
-        <body>
+    <body>
         <%@ include file="menu.jsp" %>
         <h1>Formulario Producto</h1>
         <button type="button" name="btn_nuevo" id="btn_nuevo" class="btn btn-info btn-lg" data-toggle="modal" data-target="#modal_producto" onclick="limpiar()">Nuevo</button>
@@ -68,10 +78,11 @@
                         <th>Precio Venta</th>
                         <th>Existencia</th>
                         <th>Fecha Ingreso</th>
+                        <th style="text-align: center;">Acciones</th>
                     </tr>
                 </thead>
                 <tbody id="tbl_producto">
-                    <% 
+                    <%
                         Productos producto = new Productos();
                         DefaultTableModel tabla = new DefaultTableModel();
                         tabla = producto.leer();
@@ -86,6 +97,7 @@
                             out.println("<td>" + tabla.getValueAt(t, 6) + "</td>");
                             out.println("<td>" + tabla.getValueAt(t, 7) + "</td>");
                             out.println("<td>" + tabla.getValueAt(t, 8) + "</td>");
+                            out.println("<td><button class='gestionar'>Gestionar</button></td>");
                             out.println("</tr>");
                         }
                     %>
@@ -108,32 +120,34 @@
                                         $("#txt_costo").val(0);
                                         $("#txt_venta").val(0);
                                         $("#txt_existencia").val(0);
-                                         $("#fecha_ingreso").val('');
+                                        $("#fecha_ingreso").val('');
                                     }
 
-                                    $('#tbl_producto').on('click', 'tr td', function (evt) {
-                                        var target, id_producto, producto, id_marca, descripcion, imagen, precio_costo, precio_venta, existencia, fecha_ingreso;
-                                        target = $(event.target);
-                                        id_producto = target.parent().data('id_producto');
-                                        producto = target.parent().data('producto');
-                                        id_marca = target.parent().data('id_marca');
-                                        descripcion = target.parent().data('descripcion');
-                                        imagen = target.parent().data('imagen');
-                                        precio_costo = target.parent().data('precio_costo');
-                                        precio_venta = target.parent().data('precio_venta');
-                                        existencia = target.parent().data('existencia');
-                                        fecha_ingreso = target.parent().data('fecha_ingreso');
-                                        
-                                        $("#txt_id_producto").val(id_producto);
-                                        $("#txt_producto").val(producto);
-                                        $("#txt_marca").val(id_marca);
-                                        $("#txt_descripcion").val(descripcion);
-                                        $("#txt_imagen").val(imagen);
-                                        $("#txt_costo").val(precio_costo);
-                                        $("#txt_venta").val(precio_venta);
-                                        $("#txt_existencia").val(existencia);
-                                        $("#fecha_ingreso").val(fecha_ingreso);
-                                        $("#modal_producto").modal('show');
+                                    document.querySelectorAll('.gestionar').forEach(button => {
+                                        button.addEventListener('click', function () {
+                                            var target, id_producto, producto, id_marca, descripcion, imagen, precio_costo, precio_venta, existencia, fecha_ingreso;
+                                            target = $(event.target);
+                                            id_producto = target.parent().data('id_producto');
+                                            producto = target.parent().data('producto');
+                                            id_marca = target.parent().data('id_marca');
+                                            descripcion = target.parent().data('descripcion');
+                                            imagen = target.parent().data('imagen');
+                                            precio_costo = target.parent().data('precio_costo');
+                                            precio_venta = target.parent().data('precio_venta');
+                                            existencia = target.parent().data('existencia');
+                                            fecha_ingreso = target.parent().data('fecha_ingreso');
+
+                                            $("#txt_id_producto").val(id_producto);
+                                            $("#txt_producto").val(producto);
+                                            $("#txt_marca").val(id_marca);
+                                            $("#txt_descripcion").val(descripcion);
+                                            $("#txt_imagen").val(imagen);
+                                            $("#txt_costo").val(precio_costo);
+                                            $("#txt_venta").val(precio_venta);
+                                            $("#txt_existencia").val(existencia);
+                                            $("#fecha_ingreso").val(fecha_ingreso);
+                                            $("#modal_producto").modal('show');
+                                        });
                                     });
 
         </script>

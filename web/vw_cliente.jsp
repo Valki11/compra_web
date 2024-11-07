@@ -8,15 +8,20 @@
         <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
         <title>Clientes</title>
         <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" integrity="sha384-JcKb8q3iqJ61gNV9KGb8thSsNjpSL0n8PARn9HuZOnIxN0hoP+VmmDGMN5t9UJ0Z" crossorigin="anonymous">
-    
-         <script>
-            $(document).ready(function () {
-                $("#fecha_ingreso").dateonpicker();
-            });
-        </script>
+
+        <style>
+            .gestionar {
+                background-color: orange;
+                color: white;
+                padding: 10px;
+                border: none;
+                border-radius: 5px;
+                cursor: pointer;
+            }
+        </style>
     </head>
     <body>
-        <body>
+    <body>
         <%@ include file="menu.jsp" %>
         <h1>Formulario Cliente</h1>
         <button type="button" name="btn_nuevo" id="btn_nuevo" class="btn btn-info btn-lg" data-toggle="modal" data-target="#modal_cliente" onclick="limpiar()">Nuevo</button>
@@ -45,8 +50,8 @@
                                 <label for="lbl_correo"><b>Correo Electronico</b></label>
                                 <input type="text" name="txt_correo" id="txt_correo" class="form-control"required>
                                 <label for="lbl_fecha_ingreso" ><b>Fecha Ingreso</b></label>
-                                <input type="text" id="fecha_ingreso">
-                                
+                                <input type="date" id="fecha_ingreso" name="fecha">
+
                                 <br>
                                 <button name="btn_agregar" id="btn_agregar"  value="agregar" class="btn btn-primary btn-lg">Agregar</button>
                                 <button name="btn_modificar" id="btn_modificar"  value="modificar" class="btn btn-success btn-lg">Modificar</button>
@@ -71,6 +76,7 @@
                         <th>Telefono</th>
                         <th>Correo Electronico</th>
                         <th>Fecha Ingreso</th>
+                        <th style="text-align: center;">Acciones</th>
                     </tr>
                 </thead>
                 <tbody id="tbl_cliente">
@@ -78,7 +84,7 @@
                         DefaultTableModel tabla = new DefaultTableModel();
                         tabla = cliente.leer();
                         for (int t = 0; t < tabla.getRowCount(); t++) {
-                            out.println("<tr data-id=" + tabla.getValueAt(t, 0)+ ">");
+                            out.println("<tr data-id=" + tabla.getValueAt(t, 0) + ">");
                             out.println("<td>" + tabla.getValueAt(t, 0) + "</td>");
                             out.println("<td>" + tabla.getValueAt(t, 1) + "</td>");
                             out.println("<td>" + tabla.getValueAt(t, 2) + "</td>");
@@ -87,6 +93,7 @@
                             out.println("<td>" + tabla.getValueAt(t, 5) + "</td>");
                             out.println("<td>" + tabla.getValueAt(t, 6) + "</td>");
                             out.println("<td>" + tabla.getValueAt(t, 7) + "</td>");
+                            out.println("<td><button class='gestionar'>Gestionar</button></td>");
                             out.println("</tr>");
 
                         }
@@ -109,31 +116,33 @@
                                         $("#txt_genero").val(0);
                                         $("#txt_telefono").val('');
                                         $("#txt_correo").val('');
-                                         $("#fecha_ingreso").val('');
+                                        $("#fecha_ingreso").val('');
                                     }
 
-                                    $('#tbl_cliente').on('click', 'tr td', function (evt) {
-                                        var target, id_cliente, nombres, apellidos, NIT, genero, telefono, correo_electronico, fecha_ingreso;
-                                        target = $(event.target);
-                                        id_cliente = target.parent().data('id_cliente');
-                                        nombres = target.parent().data('nombres');
-                                        apellidos = target.parent().data('apellidos');
-                                        NIT = target.parent().data('NIT');
-                                        genero = target.parent().data('genero');
-                                        telefono = target.parent().data('telefono');
-                                        correo_electronico = target.parent().data('correo_electronico');
-                                        fecha_ingreso = target.parent().data('fecha_ingreso');
-                                        
-                                        $("#txt_id_cliente").val(id_cliente);
-                                        $("#txt_nombre").val(nombres);
-                                        $("#txt_apellido").val(apellidos);
-                                        $("#txt_nit").val(NIT);
-                                        $("#txt_genero").val(genero);
-                                        $("#txt_telefono").val(telefono);
-                                        $("#txt_correo").val(cliente);
-                                        $("#fecha_ingreso").val(fecha_ingreso);
-                                        
-                                        $("#modal_cliente").modal('show');
+                                    document.querySelectorAll('.gestionar').forEach(button => {
+                                        button.addEventListener('click', function () {
+                                            var target, id_cliente, nombres, apellidos, NIT, genero, telefono, correo_electronico, fecha_ingreso;
+                                            target = $(event.target);
+                                            id_cliente = target.parent().data('id_cliente');
+                                            nombres = target.parent().data('nombres');
+                                            apellidos = target.parent().data('apellidos');
+                                            NIT = target.parent().data('NIT');
+                                            genero = target.parent().data('genero');
+                                            telefono = target.parent().data('telefono');
+                                            correo_electronico = target.parent().data('correo_electronico');
+                                            fecha_ingreso = target.parent().data('fecha_ingreso');
+
+                                            $("#txt_id_cliente").val(id_cliente);
+                                            $("#txt_nombre").val(nombres);
+                                            $("#txt_apellido").val(apellidos);
+                                            $("#txt_nit").val(NIT);
+                                            $("#txt_genero").val(genero);
+                                            $("#txt_telefono").val(telefono);
+                                            $("#txt_correo").val(correo_electronico);
+                                            $("#fecha_ingreso").val(fecha_ingreso);
+
+                                            $("#modal_cliente").modal('show');
+                                        });
                                     });
 
         </script>

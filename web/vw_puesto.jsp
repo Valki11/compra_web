@@ -8,7 +8,16 @@
         <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
         <title>Puesto</title>
         <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" integrity="sha384-JcKb8q3iqJ61gNV9KGb8thSsNjpSL0n8PARn9HuZOnIxN0hoP+VmmDGMN5t9UJ0Z" crossorigin="anonymous">
-
+        <style>
+            .gestionar {
+                background-color: orange;
+                color: white;
+                padding: 10px;
+                border: none;
+                border-radius: 5px;
+                cursor: pointer;
+            }
+        </style>
     </head>
     <body>
         <%@ include file="menu.jsp" %>
@@ -46,6 +55,7 @@
                     <tr>
                         <th>id</th>
                         <th>Puesto</th>
+                        <th style="text-align: center;">Acciones</th>
                     </tr>
                 </thead>
                 <tbody id="tbl_puesto">
@@ -53,9 +63,10 @@
                         DefaultTableModel tabla = new DefaultTableModel();
                         tabla = puesto.leer();
                         for (int t = 0; t < tabla.getRowCount(); t++) {
-                            out.println("<tr data-id=" + tabla.getValueAt(t, 0)+ ">");
+                            out.println("<tr data-id=" + tabla.getValueAt(t, 0) + ">");
                             out.println("<td>" + tabla.getValueAt(t, 0) + "</td>");
                             out.println("<td>" + tabla.getValueAt(t, 1) + "</td>");
+                            out.println("<td><button class='gestionar'>Gestionar</button></td>");
                             out.println("</tr>");
 
                         }
@@ -75,14 +86,16 @@
                                         $("#txt_puesto").val('');
                                     }
 
-                                    $('#tbl_puesto').on('click', 'tr td', function (evt) {
-                                        var target, id_puesto, puesto;
-                                        target = $(event.target);
-                                        id_puesto = target.parent().data('id_puesto');
-                                        puesto = target.parent().data('puesto');
-                                        $("#txt_id_puesto").val(id_puesto);
-                                        $("#txt_puesto").val(puesto);
-                                        $("#modal_puesto").modal('show');
+                                    document.querySelectorAll('.gestionar').forEach(button => {
+                                        button.addEventListener('click', function () {
+                                            var target, id_puesto, puesto;
+                                            target = $(event.target);
+                                            id_puesto = target.parent().data('id_puesto');
+                                            puesto = target.parent().data('puesto');
+                                            $("#txt_id_puesto").val(id_puesto);
+                                            $("#txt_puesto").val(puesto);
+                                            $("#modal_puesto").modal('show');
+                                        });
                                     });
 
         </script>

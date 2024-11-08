@@ -1,0 +1,11 @@
+{
+  "Version": 1,
+  "Hash": "gQ2awLGmEwHKKRgObxTMN3KePlTYV84yqRWZwL5ZqZM=",
+  "Source": "compra_api",
+  "BasePath": "_content/compra_api",
+  "Mode": "Default",
+  "ManifestType": "Build",
+  "ReferencedProjectsConfiguration": [],
+  "DiscoveryPatterns": [],
+  "Assets": []
+}

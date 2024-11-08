@@ -1,0 +1,6 @@
+@compra_api_HostAddress = http://localhost:5183
+
+GET {{compra_api_HostAddress}}/weatherforecast/
+Accept: application/json
+
+###

@@ -67,11 +67,10 @@ public class Puesto {
         try {
             PreparedStatement parametro;
             cn = new Conexion();
-            String query = "insert into puestos(id_puestos, puesto) values(?,?);";
+            String query = "insert into puestos(puesto) values(?);";
             cn.abrir_conexion();
             parametro = (PreparedStatement) cn.conexionBD.prepareStatement(query);
-            parametro.setInt(1, getId_puesto());
-            parametro.setString(2, getPuesto());
+            parametro.setString(1, getPuesto());
             retorno = parametro.executeUpdate();
             cn.cerrar_conexion();
         } catch (SQLException ex) {

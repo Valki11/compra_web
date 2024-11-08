@@ -23,23 +23,21 @@ public class sr_puesto extends HttpServlet {
             out.println("<title>Servlet Puesto</title>");
             out.println("</head>");
             out.println("<body>");
-            puesto = new Puesto(Integer.valueOf(request.getParameter("id_puesto")), request.getParameter("puesto"));
+            puesto = new Puesto(Integer.valueOf(request.getParameter("txt_id_puesto")), request.getParameter("txt_puesto"));
 
             // Boton agregar 
             if ("agregar".equals(request.getParameter("btn_agregar"))) {
                 if (puesto.agregar() > 0) {
-                    response.sendRedirect("index.jsp");
-
+                    response.sendRedirect("vw_puesto.jsp");
                 } else {
                     out.println("<h1> xxxxxxx No se Ingreso xxxxxxxxxxxx </h1>");
-                    out.println("<a href='index.jsp'>Regresar...</a>");
                 }
             }
             
             // Boton modificar 
             if ("modificar".equals(request.getParameter("btn_modificar"))) {
                 if (puesto.modificar() > 0) {
-                    response.sendRedirect("index.jsp");
+                    response.sendRedirect("vw_puesto.jsp");
 
                 } else {
                     out.println("<h1> xxxxxxx No se Modifico xxxxxxxxxxxx </h1>");
@@ -50,7 +48,7 @@ public class sr_puesto extends HttpServlet {
             // Boton eliminar 
             if ("eliminar".equals(request.getParameter("btn_eliminar"))) {
                 if (puesto.eliminar() > 0) {
-                    response.sendRedirect("index.jsp");
+                    response.sendRedirect("vw_puesto.jsp");
 
                 } else {
                     out.println("<h1> xxxxxxx No se Elimino xxxxxxxxxxxx </h1>");

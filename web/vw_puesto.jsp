@@ -34,7 +34,7 @@
                         <div class="modal-body">
                             <form action="sr_puesto" method="post" class="form-group">
                                 <label for="lbl_id_puesto" ><b>ID</b></label>
-                                <input type="text" name="txt_id_puesto" id="txt_id_puesto" class="form-control"> 
+                                <input type="text" name="txt_id_puesto" id="txt_id_puesto" class="form-control" readonly> 
                                 <label for="lbl_puesto" ><b>Puesto</b></label>
                                 <input type="text" name="txt_puesto" id="txt_puesto" class="form-control" placeholder="Ejemplo: Programador" required>
                                 <br>
@@ -66,7 +66,7 @@
                             out.println("<tr data-id=" + tabla.getValueAt(t, 0) + ">");
                             out.println("<td>" + tabla.getValueAt(t, 0) + "</td>");
                             out.println("<td>" + tabla.getValueAt(t, 1) + "</td>");
-                            out.println("<td><button class='gestionar'>Gestionar</button></td>");
+                            out.println("<td><button class='gestionar' onclick=gestion(" + tabla.getValueAt(t, 0) + ")>Gestionar</button></td>");
                             out.println("</tr>");
 
                         }
@@ -86,18 +86,22 @@
                                         $("#txt_puesto").val('');
                                     }
 
-                                    document.querySelectorAll('.gestionar').forEach(button => {
-                                        button.addEventListener('click', function () {
-                                            var target, id_puesto, puesto;
-                                            target = $(event.target);
-                                            id_puesto = target.parent().data('id_puesto');
-                                            puesto = target.parent().data('puesto');
-                                            $("#txt_id_puesto").val(id_puesto);
-                                            $("#txt_puesto").val(puesto);
-                                            $("#modal_puesto").modal('show');
-                                        });
-                                    });
+                                    function gestion(id) {
+                                        let fila = document.querySelector("tr[data-id='" + id + "']");
+                                        if (fila) {
+                                            let celdas = fila.querySelectorAll("td");
 
+                                            let dato1 = celdas[0].textContent; 
+                                            let dato2 = celdas[1].textContent; 
+
+                                            // Asigna el resultado al input
+                                            document.getElementById("txt_id_puesto").value = dato1;
+                                            document.getElementById("txt_puesto").value = dato2;
+                                            
+                                             $("#modal_puesto").modal('show');
+                                        }
+
+                                    }
         </script>
     </body>
 </html>

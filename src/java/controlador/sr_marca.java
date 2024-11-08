@@ -28,49 +28,42 @@ public class sr_marca extends HttpServlet {
             out.println("<!DOCTYPE html>");
             out.println("<html>");
             out.println("<head>");
-            out.println("<title>Servlet sr_marca</title>");
+            out.println("<title>Marcas</title>");
             out.println("</head>");
             out.println("<body>");
-            out.println("<h1>Servlet sr_marca at " + request.getContextPath() + "</h1>");
-            out.println("</body>");
-            out.println("</html>");
-        SimpleDateFormat formatter = new SimpleDateFormat("yyyy-MM-dd");
-            Date fecha = new Date();
+            marca = new Marca(Integer.valueOf(request.getParameter("txt_id_marca")), request.getParameter("txt_marca"));
             
-            /*   java.util.Date utilDate =request.getParameter("fecha_ingreso");  */
-            /*java.sql.Date sqlDate = new java.sql.Date(utilDate.getTime()); */
-            
-            marca = new Marca (Integer.valueOf(request.getParameter("id_Marca")), request.getParameter("marca"));
-            // Boton agregar 
+            System.out.println(marca.leer());
+// Boton agregar 
             if ("agregar".equals(request.getParameter("btn_agregar"))) {
                 if (marca.agregar() > 0) {
-                    response.sendRedirect("index.jsp");
+                    response.sendRedirect("vw_marca.jsp");
 
                 } else {
                     out.println("<h1> xxxxxxx No se Ingreso xxxxxxxxxxxx </h1>");
-                    out.println("<a href='index.jsp'>Regresar...</a>");
+                    out.println("<a href='vw_marca.jsp'>Regresar...</a>");
                 }
             }
             
             // Boton modificar 
             if ("modificar".equals(request.getParameter("btn_modificar"))) {
                 if (marca.modificar() > 0) {
-                    response.sendRedirect("index.jsp");
+                    response.sendRedirect("vw_marca.jsp");
 
                 } else {
                     out.println("<h1> xxxxxxx No se Modifico xxxxxxxxxxxx </h1>");
-                    out.println("<a href='index.jsp'>Regresar...</a>");
+                    out.println("<a href='vw_marca.jsp'>Regresar...</a>");
                 }
             }
 
             // Boton eliminar 
             if ("eliminar".equals(request.getParameter("btn_eliminar"))) {
                 if (marca.eliminar() > 0) {
-                    response.sendRedirect("index.jsp");
+                    response.sendRedirect("vw_marca.jsp");
 
                 } else {
                     out.println("<h1> xxxxxxx No se Elimino xxxxxxxxxxxx </h1>");
-                    out.println("<a href='index.jsp'>Regresar...</a>");
+                    out.println("<a href='vw_marca.jsp'>Regresar...</a>");
                 }
             }
             

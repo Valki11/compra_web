@@ -34,7 +34,7 @@
                         <div class="modal-body">
                             <form action="sr_marca" method="post" class="form-group">
                                 <label for="lbl_id_marca" ><b>ID</b></label>
-                                <input type="text" name="txt_id_marca" id="txt_id" class="form-control"> 
+                                <input type="text" name="txt_id_marca" id="txt_id_marca" class="form-control"readonly> 
                                 <label for="lbl_marca" ><b>Marca</b></label>
                                 <input type="text" name="txt_marca" id="txt_marca" class="form-control" placeholder="Ejemplo: Nike" required>
                                 <br>
@@ -66,7 +66,7 @@
                             out.println("<tr data-id=" + tabla.getValueAt(t, 0) + ">");
                             out.println("<td>" + tabla.getValueAt(t, 0) + "</td>");
                             out.println("<td>" + tabla.getValueAt(t, 1) + "</td>");
-                            out.println("<td><button class='gestionar'>Gestionar</button></td>");
+                            out.println("<td><button class='gestionar' onclick=gestion(" + tabla.getValueAt(t, 0) + ")>Gestionar</button></td>");
                             out.println("</tr>");
 
                         }
@@ -86,18 +86,22 @@
                                         $("#txt_marca").val('');
                                     }
 
-                                    document.querySelectorAll('.gestionar').forEach(button => {
-                                        button.addEventListener('click', function () {
-                                            var target, id_marca, marca;
-                                            target = $(event.target);
-                                            id_marca = target.parent().data('id_marca');
-                                            marca = target.parent().data('marca');
-                                            $("#txt_id_marca").val(id_marca);
-                                            $("#txt_marca").val(marca);
-                                            $("#modal_marca").modal('show');
-                                        });
-                                    });
+                                    function gestion(id) {
+                                        let fila = document.querySelector("tr[data-id='" + id + "']");
+                                        if (fila) {
+                                            let celdas = fila.querySelectorAll("td");
 
+                                            let dato1 = celdas[0].textContent; 
+                                            let dato2 = celdas[1].textContent; 
+
+                                            // Asigna el resultado al input
+                                            document.getElementById("txt_id_marca").value = dato1;
+                                            document.getElementById("txt_marca").value = dato2;
+                                            
+                                             $("#modal_marca").modal('show');
+                                        }
+
+                                    }
         </script>
     </body>
 </html>

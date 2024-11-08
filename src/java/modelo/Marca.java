@@ -71,11 +71,10 @@ public class Marca {
         try {
             PreparedStatement parametro;
             cn = new Conexion();
-            String query = "insert into marcas(id_marca, marca) values(?,?);";
+            String query = "insert into marcas(marca) values(?);";
             cn.abrir_conexion();
             parametro = (PreparedStatement) cn.conexionBD.prepareStatement(query);
-            parametro.setInt(1, getId_Marca());
-            parametro.setString(2, getMarca());
+            parametro.setString(1, getMarca());
             retorno = parametro.executeUpdate();
             cn.cerrar_conexion();
         } catch (SQLException ex) {

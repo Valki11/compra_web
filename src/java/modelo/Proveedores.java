@@ -97,14 +97,13 @@ public class Proveedores {
         try {
             PreparedStatement parametro;
             cn = new Conexion();
-            String query = "insert into proveedores(id_proveedor, proveedor,nit,direccion,telefono) values(?,?,?,?,?);";
+            String query = "insert into proveedores(proveedor,nit,direccion,telefono) values(?,?,?,?);";
             cn.abrir_conexion();
             parametro = (PreparedStatement) cn.conexionBD.prepareStatement(query);
-            parametro.setInt(1, getId_Proveedores());
-            parametro.setString(2, getProveedor());
-            parametro.setString(3, getNit());
-            parametro.setString(4, getDireccion());
-            parametro.setString(5, getTelefono());
+            parametro.setString(1, getProveedor());
+            parametro.setString(2, getNit());
+            parametro.setString(3, getDireccion());
+            parametro.setString(4, getTelefono());
             retorno = parametro.executeUpdate();
             cn.cerrar_conexion();
         } catch (SQLException ex) {
@@ -118,13 +117,14 @@ public class Proveedores {
         try {
             PreparedStatement parametro;
             cn = new Conexion();
-            String query = "update proveedores set proveedores = ?  where id_proveedores = ?;";
+            String query = "UPDATE proveedores SET proveedor = ? , nit = ? , direccion = ?, telefono = ? WHERE id_proveedor = ?;";
             cn.abrir_conexion();
             parametro = (PreparedStatement) cn.conexionBD.prepareStatement(query);
-            parametro.setString(2, getProveedor());
-            parametro.setString(3, getNit());
-            parametro.setString(4, getDireccion());
-            parametro.setString(5, getTelefono());
+            parametro.setString(1, getProveedor());
+            parametro.setString(2, getNit());
+            parametro.setString(3, getDireccion());
+            parametro.setString(4, getTelefono());
+            parametro.setInt(5, getId_Proveedores());
             retorno = parametro.executeUpdate();
             cn.cerrar_conexion();
         } catch (SQLException ex) {
@@ -138,7 +138,7 @@ public class Proveedores {
         try {
             PreparedStatement parametro;
             cn = new Conexion();
-            String query = "delete from proveedores set proveedores = ?  where id_proveedores = ?";
+            String query = "delete from proveedores where id_proveedor = ?";
             cn.abrir_conexion();
             parametro = (PreparedStatement) cn.conexionBD.prepareStatement(query);
             parametro.setInt(1, getId_Proveedores());

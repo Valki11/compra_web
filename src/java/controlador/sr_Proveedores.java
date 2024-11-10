@@ -33,43 +33,39 @@ public class sr_Proveedores extends HttpServlet {
             out.println("<h1>Servlet sr_Proveedores at " + request.getContextPath() + "</h1>");
             out.println("</body>");
             out.println("</html>");
-            SimpleDateFormat formatter = new SimpleDateFormat("yyyy-MM-dd");
-            Date fecha = new Date();
-
-            /*   java.util.Date utilDate =request.getParameter("fecha_ingreso");  */
- /*java.sql.Date sqlDate = new java.sql.Date(utilDate.getTime()); */
-            proveedores = new Proveedores(Integer.valueOf(request.getParameter("id_proveedores")), request.getParameter("proveedor"), request.getParameter("nit"), request.getParameter("direccion"), request.getParameter("telefono"));
+    
+            proveedores = new Proveedores(Integer.valueOf(request.getParameter("txt_id_proveedor")), request.getParameter("txt_proveedor"), request.getParameter("txt_nit"), request.getParameter("txt_direccion"), request.getParameter("txt_telefono"));
 
             // Boton agregar 
             if ("agregar".equals(request.getParameter("btn_agregar"))) {
                 if (proveedores.agregar() > 0) {
-                    response.sendRedirect("index.jsp");
+                    response.sendRedirect("vw_proveedores.jsp");
 
                 } else {
                     out.println("<h1> xxxxxxx No se Ingreso xxxxxxxxxxxx </h1>");
-                    out.println("<a href='index.jsp'>Regresar...</a>");
+                    out.println("<a href='vw_proveedores.jsp'>Regresar...</a>");
                 }
             }
 
             // Boton modificar 
             if ("modificar".equals(request.getParameter("btn_modificar"))) {
                 if (proveedores.modificar() > 0) {
-                    response.sendRedirect("index.jsp");
+                    response.sendRedirect("vw_proveedores.jsp");
 
                 } else {
                     out.println("<h1> xxxxxxx No se Modifico xxxxxxxxxxxx </h1>");
-                    out.println("<a href='index.jsp'>Regresar...</a>");
+                    out.println("<a href='vw_proveedores.jsp'>Regresar...</a>");
                 }
             }
 
             // Boton eliminar 
             if ("eliminar".equals(request.getParameter("btn_eliminar"))) {
                 if (proveedores.eliminar() > 0) {
-                    response.sendRedirect("index.jsp");
+                    response.sendRedirect("vw_proveedores.jsp");
 
                 } else {
                     out.println("<h1> xxxxxxx No se Elimino xxxxxxxxxxxx </h1>");
-                    out.println("<a href='index.jsp'>Regresar...</a>");
+                    out.println("<a href='vw_proveedores.jsp'>Regresar...</a>");
                 }
             }
 

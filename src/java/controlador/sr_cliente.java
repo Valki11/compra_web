@@ -30,44 +30,44 @@ public class sr_cliente extends HttpServlet {
             out.println("<title>Servlet Puesto</title>");
             out.println("</head>");
             out.println("<body>");
-            SimpleDateFormat formatter = new SimpleDateFormat("yyyy-MM-dd");
             Date fecha = new Date();
+            java.sql.Date fechaSQL = new java.sql.Date(fecha.getTime());
             
             /*   java.util.Date utilDate =request.getParameter("fecha_ingreso");  */
             /*java.sql.Date sqlDate = new java.sql.Date(utilDate.getTime()); */
-            
-            cliente = new Clientes(Integer.valueOf(request.getParameter("id_cliente")), request.getParameter("nombres"),request.getParameter("apellidos"),request.getParameter("NIT"),Boolean.parseBoolean(request.getParameter("genero")),request.getParameter("telefono"), request.getParameter("correo_electronico"), (java.sql.Date) fecha);
+            System.out.println(request.getParameter("genero"));
+            cliente = new Clientes(Integer.valueOf(request.getParameter("txt_id_cliente")), request.getParameter("txt_nombre"),request.getParameter("txt_apellido"),request.getParameter("txt_nit"),Boolean.parseBoolean(request.getParameter("genero")),request.getParameter("txt_telefono"), request.getParameter("txt_correo"), (java.sql.Date) fechaSQL);
 
             // Boton agregar 
             if ("agregar".equals(request.getParameter("btn_agregar"))) {
                 if (cliente.agregar() > 0) {
-                    response.sendRedirect("index.jsp");
+                    response.sendRedirect("vw_cliente.jsp");
 
                 } else {
                     out.println("<h1> xxxxxxx No se Ingreso xxxxxxxxxxxx </h1>");
-                    out.println("<a href='index.jsp'>Regresar...</a>");
+                    out.println("<a href='vw_cliente.jsp'>Regresar...</a>");
                 }
             }
             
             // Boton modificar 
             if ("modificar".equals(request.getParameter("btn_modificar"))) {
                 if (cliente.modificar() > 0) {
-                    response.sendRedirect("index.jsp");
+                    response.sendRedirect("vw_cliente.jsp");
 
                 } else {
                     out.println("<h1> xxxxxxx No se Modifico xxxxxxxxxxxx </h1>");
-                    out.println("<a href='index.jsp'>Regresar...</a>");
+                    out.println("<a href='vw_cliente.jsp'>Regresar...</a>");
                 }
             }
 
             // Boton eliminar 
             if ("eliminar".equals(request.getParameter("btn_eliminar"))) {
                 if (cliente.eliminar() > 0) {
-                    response.sendRedirect("index.jsp");
+                    response.sendRedirect("vw_cliente.jsp");
 
                 } else {
                     out.println("<h1> xxxxxxx No se Elimino xxxxxxxxxxxx </h1>");
-                    out.println("<a href='index.jsp'>Regresar...</a>");
+                    out.println("<a href='vw_cliente.jsp'>Regresar...</a>");
                 }
             }
             

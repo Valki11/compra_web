@@ -36,7 +36,7 @@
                         <div class="modal-body">
                             <form action="sr_cliente" method="post" class="form-group">
                                 <label for="lbl_id_cliente" ><b>ID</b></label>
-                                <input type="text" name="txt_id_cliente" id="txt_id_cliente" class="form-control"> 
+                                <input type="text" name="txt_id_cliente" id="txt_id_cliente" class="form-control" readonly> 
                                 <label for="lbl_nombre" ><b>Nombres</b></label>
                                 <input type="text" name="txt_nombre" id="txt_nombre" class="form-control" +required>
                                 <label for="lbl_apellido" ><b>Apellidos</b></label>
@@ -44,13 +44,14 @@
                                 <label for="lbl_NIT" ><b>NIT</b></label>
                                 <input type="text" name="txt_nit" id="txt_nit" class="form-control"required>
                                 <label for="lbl_genero" ><b>Genero</b></label>
-                                <input type="text" name="txt_genero" id="txt_genero" class="form-control"required>
+                                <select id="genero" class="form-control">
+                                    <option value="1">Hombre</option>
+                                    <option value="0">Mujer</option>
+                                 </select>
                                 <label for="lbl_telefono" ><b>Telefono</b></label>
                                 <input type="text" name="txt_telefono" id="txt_telefono" class="form-control"required>
                                 <label for="lbl_correo"><b>Correo Electronico</b></label>
                                 <input type="text" name="txt_correo" id="txt_correo" class="form-control"required>
-                                <label for="lbl_fecha_ingreso" ><b>Fecha Ingreso</b></label>
-                                <input type="date" id="fecha_ingreso" name="fecha">
 
                                 <br>
                                 <button name="btn_agregar" id="btn_agregar"  value="agregar" class="btn btn-primary btn-lg">Agregar</button>
@@ -93,7 +94,7 @@
                             out.println("<td>" + tabla.getValueAt(t, 5) + "</td>");
                             out.println("<td>" + tabla.getValueAt(t, 6) + "</td>");
                             out.println("<td>" + tabla.getValueAt(t, 7) + "</td>");
-                            out.println("<td><button class='gestionar'>Gestionar</button></td>");
+                            out.println("<td><button class='gestionar' onclick=gestion(" + tabla.getValueAt(t, 0) + ")>Gestionar</button></td>");
                             out.println("</tr>");
 
                         }
@@ -113,37 +114,36 @@
                                         $("#txt_nombre").val('');
                                         $("#txt_apellido").val('');
                                         $("#txt_nit").val('');
-                                        $("#txt_genero").val(0);
                                         $("#txt_telefono").val('');
                                         $("#txt_correo").val('');
-                                        $("#fecha_ingreso").val('');
                                     }
+                                    
+                                    function gestion(id) {
+                                        let fila = document.querySelector("tr[data-id='" + id + "']");
+                                        if (fila) {
+                                            let celdas = fila.querySelectorAll("td");
 
-                                    document.querySelectorAll('.gestionar').forEach(button => {
-                                        button.addEventListener('click', function () {
-                                            var target, id_cliente, nombres, apellidos, NIT, genero, telefono, correo_electronico, fecha_ingreso;
-                                            target = $(event.target);
-                                            id_cliente = target.parent().data('id_cliente');
-                                            nombres = target.parent().data('nombres');
-                                            apellidos = target.parent().data('apellidos');
-                                            NIT = target.parent().data('NIT');
-                                            genero = target.parent().data('genero');
-                                            telefono = target.parent().data('telefono');
-                                            correo_electronico = target.parent().data('correo_electronico');
-                                            fecha_ingreso = target.parent().data('fecha_ingreso');
+                                            let dato1 = celdas[0].textContent; 
+                                            let dato2 = celdas[1].textContent; 
+                                            let dato3 = celdas[2].textContent; 
+                                            let dato4 = celdas[3].textContent; 
+                                            let dato5 = celdas[4].textContent; 
+                                            let dato6 = celdas[5].textContent; 
+                                            let dato7 = celdas[6].textContent; 
 
-                                            $("#txt_id_cliente").val(id_cliente);
-                                            $("#txt_nombre").val(nombres);
-                                            $("#txt_apellido").val(apellidos);
-                                            $("#txt_nit").val(NIT);
-                                            $("#txt_genero").val(genero);
-                                            $("#txt_telefono").val(telefono);
-                                            $("#txt_correo").val(correo_electronico);
-                                            $("#fecha_ingreso").val(fecha_ingreso);
+                                            // Asigna el resultado al input
+                                            document.getElementById("txt_id_cliente").value = dato1;
+                                            document.getElementById("txt_nombre").value = dato2;
+                                            document.getElementById("txt_apellido").value = dato3;
+                                            document.getElementById("txt_nit").value = dato4;
+                                            document.getElementById("genero").value = dato5 === "Hombre" ? 1 : 0;
+                                            document.getElementById("txt_telefono").value = dato6;
+                                            document.getElementById("txt_correo").value = dato7;
+                                            
+                                             $("#modal_cliente").modal('show');
+                                        }
 
-                                            $("#modal_cliente").modal('show');
-                                        });
-                                    });
+                                    }
 
         </script>
     </body>

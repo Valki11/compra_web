@@ -44,7 +44,7 @@
                                 <label for="lbl_NIT" ><b>NIT</b></label>
                                 <input type="text" name="txt_nit" id="txt_nit" class="form-control"required>
                                 <label for="lbl_genero" ><b>Genero</b></label>
-                                <select id="genero" class="form-control">
+                                <select id="genero" name="genero" class="form-control">
                                     <option value="1">Hombre</option>
                                     <option value="0">Mujer</option>
                                  </select>

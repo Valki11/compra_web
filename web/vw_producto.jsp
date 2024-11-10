@@ -1,3 +1,4 @@
+<%@page import="java.util.Map"%>
 <%@page import="modelo.Productos" %>
 <%@page import="java.util.HashMap" %>
 <%@page import="javax.swing.table.DefaultTableModel" %>
@@ -35,23 +36,31 @@
                         <div class="modal-body">
                             <form action="sr_productos" method="post" class="form-group">
                                 <label for="lbl_id_producto" ><b>ID</b></label>
-                                <input type="text" name="txt_id_producto" id="txt_id_producto" class="form-control"> 
+                                <input type="text" name="txt_id_producto" id="txt_id_producto" class="form-control" readonly> 
                                 <label for="lbl_producto" ><b>Producto</b></label>
                                 <input type="text" name="txt_producto" id="txt_producto" class="form-control" +required>
                                 <label for="lbl_marca" ><b>Marca</b></label>
-                                <input type="text" name="txt_marca" id="txt_marca" class="form-control"required>
+                                <select name="drop_marcas" id="drop_marcas" class="form-control">
+                                    <%
+                                        Productos producto_ = new Productos();
+                                        HashMap<String, String> drop = producto_.drop_marcas();
+                                        for (Map.Entry<String, String> entry : drop.entrySet()) {
+                                            String key = entry.getKey();
+                                            String value = entry.getValue();
+                                            out.println("<option value='" + key + "'>" + value + "</option>");
+                                        }
+                                    %>
+                                </select>
                                 <label for="lbl_descripcion" ><b>Descripcion</b></label>
                                 <input type="text" name="txt_descripcion" id="txt_descripcion" class="form-control"required>
                                 <label for="lbl_imagen" ><b>Imagen</b></label>
                                 <input type="text" name="txt_imagen" id="txt_imagen" class="form-control"required>
                                 <label for="lbl_costo" ><b>Precio costo</b></label>
-                                <input type="text" name="txt_costo" id="txt_costo" class="form-control"required>
+                                <input type="number" name="txt_costo" id="txt_costo" class="form-control"required>
                                 <label for="lbl_venta" ><b>Precio Venta</b></label>
-                                <input type="text" name="txt_venta" id="txt_venta" class="form-control"required>
+                                <input type="number" name="txt_venta" id="txt_venta" class="form-control"required>
                                 <label for="lbl_existencia" ><b>Existencia</b></label>
                                 <input type="text" name="txt_existencia" id="txt_existencia" class="form-control"required>
-                                <label for="lbl_fecha_ingreso" ><b>Fecha Ingreso</b></label>
-                                <input type="date" id="fecha_ingreso" name="fecha">
 
                                 <br>
                                 <button name="btn_agregar" id="btn_agregar"  value="agregar" class="btn btn-primary btn-lg">Agregar</button>
@@ -97,7 +106,7 @@
                             out.println("<td>" + tabla.getValueAt(t, 6) + "</td>");
                             out.println("<td>" + tabla.getValueAt(t, 7) + "</td>");
                             out.println("<td>" + tabla.getValueAt(t, 8) + "</td>");
-                            out.println("<td><button class='gestionar'>Gestionar</button></td>");
+                            out.println("<td><button class='gestionar' onclick=gestion(" + tabla.getValueAt(t, 0) + ")>Gestionar</button></td>");
                             out.println("</tr>");
                         }
                     %>
@@ -114,41 +123,51 @@
                                     function limpiar() {
                                         $("#txt_id_producto").val(0);
                                         $("#txt_producto").val('');
-                                        $("#txt_marca").val(0);
                                         $("#txt_descripcion").val('');
                                         $("#txt_imagen").val('');
                                         $("#txt_costo").val(0);
                                         $("#txt_venta").val(0);
                                         $("#txt_existencia").val(0);
-                                        $("#fecha_ingreso").val('');
                                     }
 
-                                    document.querySelectorAll('.gestionar').forEach(button => {
-                                        button.addEventListener('click', function () {
-                                            var target, id_producto, producto, id_marca, descripcion, imagen, precio_costo, precio_venta, existencia, fecha_ingreso;
-                                            target = $(event.target);
-                                            id_producto = target.parent().data('id_producto');
-                                            producto = target.parent().data('producto');
-                                            id_marca = target.parent().data('id_marca');
-                                            descripcion = target.parent().data('descripcion');
-                                            imagen = target.parent().data('imagen');
-                                            precio_costo = target.parent().data('precio_costo');
-                                            precio_venta = target.parent().data('precio_venta');
-                                            existencia = target.parent().data('existencia');
-                                            fecha_ingreso = target.parent().data('fecha_ingreso');
+                                    function gestion(id) {
+                                        let fila = document.querySelector("tr[data-id='" + id + "']");
+                                        if (fila) {
+                                            let celdas = fila.querySelectorAll("td");
 
-                                            $("#txt_id_producto").val(id_producto);
-                                            $("#txt_producto").val(producto);
-                                            $("#txt_marca").val(id_marca);
-                                            $("#txt_descripcion").val(descripcion);
-                                            $("#txt_imagen").val(imagen);
-                                            $("#txt_costo").val(precio_costo);
-                                            $("#txt_venta").val(precio_venta);
-                                            $("#txt_existencia").val(existencia);
-                                            $("#fecha_ingreso").val(fecha_ingreso);
+                                            let dato1 = celdas[0].textContent;
+                                            let dato2 = celdas[1].textContent;
+                                            let dato3 = celdas[2].textContent;
+                                            let dato4 = celdas[3].textContent;
+                                            let dato5 = celdas[4].textContent;
+                                            let dato6 = celdas[5].textContent;
+                                            let dato7 = celdas[6].textContent;
+                                            let dato8 = celdas[7].textContent;
+
+                                            // Asigna el resultado al input
+                                            document.getElementById("txt_id_producto").value = dato1;
+                                            document.getElementById("txt_producto").value = dato2;
+                                            seleccionarOpcionPorTexto("drop_marcas", dato3);
+                                            document.getElementById("txt_descripcion").value = dato4;
+                                            document.getElementById("txt_imagen").value = dato5;
+                                            document.getElementById("txt_costo").value = dato6;
+                                            document.getElementById("txt_venta").value = dato7;
+                                            document.getElementById("txt_existencia").value = dato8;
+
                                             $("#modal_producto").modal('show');
-                                        });
-                                    });
+                                        }
+                                    }
+
+                                    function seleccionarOpcionPorTexto(selectId, textoBuscar) {
+                                        const select = document.getElementById(selectId);
+
+                                        for (let i = 0; i < select.options.length; i++) {
+                                            if (select.options[i].text === textoBuscar) {
+                                                select.selectedIndex = i;
+                                                break;
+                                            }
+                                        }
+                                    }
 
         </script>
     </body>

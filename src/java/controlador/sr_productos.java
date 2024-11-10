@@ -32,43 +32,42 @@ public class sr_productos extends HttpServlet {
             out.println("<body>");
             out.println("<h1>Servlet sr_productos at " + request.getContextPath() + "</h1>");
             out.println("</body>");
-            SimpleDateFormat formatter = new SimpleDateFormat("yyyy-MM-dd");
+            
             Date fecha = new Date();
-
-            /*   java.util.Date utilDate =request.getParameter("fecha_ingreso");  */
- /*java.sql.Date sqlDate = new java.sql.Date(utilDate.getTime()); */
-            productos = new Productos (Integer.valueOf(request.getParameter("id_producto")), request.getParameter("producto"), Integer.valueOf(request.getParameter("id_Marca")), request.getParameter("Descripcion"),request.getParameter("Imagen"),Integer.valueOf(request.getParameter("precio_costo")), Integer.valueOf(request.getParameter("precio_venta")), Integer.valueOf(request.getParameter("existencia")), (java.sql.Date) fecha);
+            java.sql.Date fechaSQL = new java.sql.Date(fecha.getTime());
+            
+            productos = new Productos (Integer.valueOf(request.getParameter("txt_id_producto")), request.getParameter("txt_producto"), Integer.valueOf(request.getParameter("drop_marcas")), request.getParameter("txt_descripcion"),request.getParameter("txt_imagen"), Integer.valueOf(request.getParameter("txt_costo")),  Integer.valueOf(request.getParameter("txt_venta")), Integer.valueOf(request.getParameter("txt_existencia")), (java.sql.Date) fechaSQL);
 
             // Boton agregar 
             if ("agregar".equals(request.getParameter("btn_agregar"))) {
                 if (productos.agregar() > 0) {
-                    response.sendRedirect("index.jsp");
+                    response.sendRedirect("vw_producto.jsp");
 
                 } else {
                     out.println("<h1> xxxxxxx No se Ingreso xxxxxxxxxxxx </h1>");
-                    out.println("<a href='index.jsp'>Regresar...</a>");
+                    out.println("<a href='vw_producto.jsp'>Regresar...</a>");
                 }
             }
 
             // Boton modificar 
             if ("modificar".equals(request.getParameter("btn_modificar"))) {
                 if (productos.modificar() > 0) {
-                    response.sendRedirect("index.jsp");
+                    response.sendRedirect("vw_producto.jsp");
 
                 } else {
                     out.println("<h1> xxxxxxx No se Modifico xxxxxxxxxxxx </h1>");
-                    out.println("<a href='index.jsp'>Regresar...</a>");
+                    out.println("<a href='vw_producto.jsp'>Regresar...</a>");
                 }
             }
 
             // Boton eliminar 
             if ("eliminar".equals(request.getParameter("btn_eliminar"))) {
                 if (productos.eliminar() > 0) {
-                    response.sendRedirect("index.jsp");
+                    response.sendRedirect("vw_producto.jsp");
 
                 } else {
                     out.println("<h1> xxxxxxx No se Elimino xxxxxxxxxxxx </h1>");
-                    out.println("<a href='index.jsp'>Regresar...</a>");
+                    out.println("<a href='vw_producto.jsp'>Regresar...</a>");
                 }
             }
 

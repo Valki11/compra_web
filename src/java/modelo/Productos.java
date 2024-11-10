@@ -4,6 +4,7 @@ import java.sql.Date;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.util.HashMap;
 import javax.swing.table.DefaultTableModel;
 
 /**
@@ -143,18 +144,17 @@ public class Productos {
         try {
             PreparedStatement parametro;
             cn = new Conexion();
-            String query = "insert into productos (descripcion,existencia,fecha_ingreso,id_marca,id_producto,imagen,precio_costo,precio_venta,producto) values(?,?,?,?,?,?,?,?,?);";
+            String query = "insert into productos (descripcion,existencia,fecha_ingreso,id_marca,imagen,precio_costo,precio_venta,producto) values(?,?,?,?,?,?,?,?);";
             cn.abrir_conexion();
             parametro = (PreparedStatement) cn.conexionBD.prepareStatement(query);
             parametro.setString(1, getDescripcion());
             parametro.setInt(2, getExistencia());
             parametro.setDate(3, getFecha_ingreso());
             parametro.setInt(4, getId_Marca());
-            parametro.setInt(5, getId_Producto());
-            parametro.setString(6, getImagen());
-            parametro.setDouble(7, getPrecio_costo());
-            parametro.setDouble(8, getPrecio_venta());
-            parametro.setString(9, getProducto());
+            parametro.setString(5, getImagen());
+            parametro.setDouble(6, getPrecio_costo());
+            parametro.setDouble(7, getPrecio_venta());
+            parametro.setString(8, getProducto());
             retorno = parametro.executeUpdate();
             cn.cerrar_conexion();
         } catch (SQLException ex) {
@@ -168,18 +168,18 @@ public class Productos {
         try {
             PreparedStatement parametro;
             cn = new Conexion();
-            String query = "update productos set descripcion = ?,existencia = ?,fecha_ingreso = ?,id_marca = ?,id_producto= ?,imagen = ?,precio_costo = ?,precio_venta = ?,producto = ?  where id_producto = ?;";
+            String query = "update productos set descripcion = ?,existencia = ?,fecha_ingreso = ?,id_marca = ?, imagen = ?,precio_costo = ?,precio_venta = ?,producto = ?  where id_producto = ?;";
             cn.abrir_conexion();
             parametro = (PreparedStatement) cn.conexionBD.prepareStatement(query);
             parametro.setString(1, getDescripcion());
             parametro.setInt(2, getExistencia());
             parametro.setDate(3, getFecha_ingreso());
             parametro.setInt(4, getId_Marca());
-            parametro.setInt(5, getId_Producto());
-            parametro.setString(6, getImagen());
-            parametro.setDouble(7, getPrecio_costo());
-            parametro.setDouble(8, getPrecio_venta());
-            parametro.setString(9, getProducto());
+            parametro.setString(5, getImagen());
+            parametro.setDouble(6, getPrecio_costo());
+            parametro.setDouble(7, getPrecio_venta());
+            parametro.setString(8, getProducto());
+            parametro.setInt(9, getId_Producto());
             retorno = parametro.executeUpdate();
             cn.cerrar_conexion();
         } catch (SQLException ex) {
@@ -203,6 +203,23 @@ public class Productos {
             System.out.println(ex.getMessage());
         }
         return retorno;
+    }
+    
+    public HashMap drop_marcas() {
+        HashMap<String, String> drop = new HashMap();
+        try {
+            String query = "Select id_marca as id, marca as marca from marcas";
+            cn = new Conexion();
+            cn.abrir_conexion();
+            ResultSet consulta = cn.conexionBD.createStatement().executeQuery(query);
+            while (consulta.next()) {
+                drop.put(consulta.getString("id"), consulta.getString("marca"));
+            }
+            cn.cerrar_conexion();
+        } catch (SQLException ex) {
+            System.out.println(ex.getMessage());
+        }
+        return drop;
     }
 }
 

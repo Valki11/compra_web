@@ -4,6 +4,7 @@ import java.sql.Date;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.util.HashMap;
 import javax.swing.table.DefaultTableModel;
 
 /**
@@ -125,17 +126,16 @@ public class Ventas {
         try {
             PreparedStatement parametro;
             cn = new Conexion();
-            String query = "insert into ventas (fecha_factura, fecha_ingreso,id_cliente,id_empleado,id_venta,no_factura,serie)values(?,?,?,?,?,?,?);";
+            String query = "insert into ventas (fecha_factura, fecha_ingreso,id_cliente,id_empleado,no_factura,serie)values(?,?,?,?,?,?);";
             cn.abrir_conexion();
             parametro = (PreparedStatement) cn.conexionBD.prepareStatement(query);
             parametro.setDate(1, getFecha_factura()); 
             parametro.setDate(2, getFecha_ingreso());
             parametro.setInt(3, getId_Cliente());
             parametro.setInt(4, getId_empleado());
-            parametro.setInt(5, getId_Venta());
-            parametro.setInt(6, getNo_factura());
-            parametro.setInt(7, getSerie());
-           
+            parametro.setInt(5, getNo_factura());
+            parametro.setInt(6, getSerie());
+            System.out.println(getSerie());
             retorno = parametro.executeUpdate();
             cn.cerrar_conexion();
         } catch (SQLException ex) {
@@ -149,18 +149,18 @@ public class Ventas {
         try {
             PreparedStatement parametro;
             cn = new Conexion();
-            String query = "update ventas set fecha_factura = ?, fecha_ingreso = ? ,id_cliente = ? ,id_empleado = ?,id_venta = ?,no_factura = ?,serie = ?   where id_venta = ?;";
+            String query = "update ventas set fecha_factura = ?, fecha_ingreso = ? ,id_cliente = ? ,id_empleado = ?,no_factura = ?,serie = ?  where id_venta = ?;";
             cn.abrir_conexion();
-            parametro = (PreparedStatement) cn.conexionBD.prepareStatement(query);
             parametro = (PreparedStatement) cn.conexionBD.prepareStatement(query);
             parametro.setDate(1, getFecha_factura()); 
             parametro.setDate(2, getFecha_ingreso());
             parametro.setInt(3, getId_Cliente());
             parametro.setInt(4, getId_empleado());
-            parametro.setInt(5, getId_Venta());
-            parametro.setInt(6, getNo_factura());
-            parametro.setInt(7, getSerie());
-            
+            parametro.setInt(5, getNo_factura());
+            parametro.setInt(6, getSerie());
+            parametro.setInt(7, getId_Venta());
+                        System.out.println(getSerie());
+
             retorno = parametro.executeUpdate();
             cn.cerrar_conexion();
         } catch (SQLException ex) {
@@ -177,13 +177,47 @@ public class Ventas {
             String query = "delete from ventas  where id_venta = ?;";
             cn.abrir_conexion();
             parametro = (PreparedStatement) cn.conexionBD.prepareStatement(query);
-            parametro.setInt(1, getId_Cliente());
+            parametro.setInt(1, getId_Venta());
             retorno = parametro.executeUpdate();
             cn.cerrar_conexion();
         } catch (SQLException ex) {
             System.out.println(ex.getMessage());
         }
         return retorno;
+    }
+    
+    public HashMap drop_clientes() {
+        HashMap<String, String> drop = new HashMap();
+        try {
+            String query = "Select id_cliente as id, CONCAT(nombres, ' ', apellidos) as cliente from clientes";
+            cn = new Conexion();
+            cn.abrir_conexion();
+            ResultSet consulta = cn.conexionBD.createStatement().executeQuery(query);
+            while (consulta.next()) {
+                drop.put(consulta.getString("id"), consulta.getString("cliente"));
+            }
+            cn.cerrar_conexion();
+        } catch (SQLException ex) {
+            System.out.println(ex.getMessage());
+        }
+        return drop;
+    }
+    
+    public HashMap drop_empleados() {
+        HashMap<String, String> drop = new HashMap();
+        try {
+            String query = "Select id_empleado as id, CONCAT(nombres, ' ', apellidos) as empleado from empleados";
+            cn = new Conexion();
+            cn.abrir_conexion();
+            ResultSet consulta = cn.conexionBD.createStatement().executeQuery(query);
+            while (consulta.next()) {
+                drop.put(consulta.getString("id"), consulta.getString("empleado"));
+            }
+            cn.cerrar_conexion();
+        } catch (SQLException ex) {
+            System.out.println(ex.getMessage());
+        }
+        return drop;
     }
 }
 

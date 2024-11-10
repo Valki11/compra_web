@@ -1,3 +1,4 @@
+<%@page import="java.util.Map"%>
 <%@page import="modelo.Ventas" %>
 <%@page import="modelo.Ventas_detalle" %>
 <%@page import="java.util.HashMap" %>
@@ -81,19 +82,38 @@
                         <div class="modal-body">
                             <form action="sr_ventas" method="post" class="form-group">
                                 <label for="lbl_id_venta" ><b>ID</b></label>
-                                <input type="text" name="txt_id_venta" id="txt_id_venta" class="form-control"> 
+                                <input type="text" name="txt_id_venta" id="txt_id_venta" class="form-control" readonly> 
                                 <label for="lbl_no_factura" ><b>No. Factura</b></label>
                                 <input type="text" name="txt_no_factura" id="txt_no_factura" class="form-control" required>
                                 <label for="lbl_serie" ><b>Serie</b></label>
                                 <input type="text" name="txt_serie" id="txt_serie" class="form-control" required>
                                 <label for="lbl_fecha_factura" ><b>Fecha Factura</b></label>
-                                <input type="date" id="fecha_factura" name="fecha">
-                                <label for="lbl_id_cliente" ><b>Cod. Cliente</b></label>
-                                <input type="text" name="txt_id_cliente" id="txt_id_cliente" class="form-control" required>
-                                <label for="lbl_id_empleado"><b>Cod. Empleado</b></label>
-                                <input type="text" name="txt_id_empleado" id="txt_id_empleado" class="form-control" required>
-                                <label for="lbl_fecha_ingreso" ><b>Fecha Ingreso</b></label>
-                                <input type="date" id="fecha_ingreso" name="fecha">
+                                <input type="date" id="fecha_factura" class="form-control" name="fecha_factura">
+                                <label for="lbl_id_cliente" ><b>Cliente</b></label>
+                                <select name="drop_clientes" id="drop_clientes" class="form-control">
+                                    <%
+                                        Ventas venta_ = new Ventas();
+                                        HashMap<String, String> drop = venta_.drop_clientes();
+                                        for (Map.Entry<String, String> entry : drop.entrySet()) {
+                                            String key = entry.getKey();
+                                            String value = entry.getValue();
+                                            out.println("<option value='" + key + "'>" + value + "</option>");
+                                        }
+                                    %>
+                                </select>
+                                <label for="lbl_id_empleado"><b>Empleado</b></label>
+                                <select name="drop_empleados" id="drop_empleados" class="form-control">
+                                    <%
+                                        Ventas _venta = new Ventas();
+                                        HashMap<String, String> drop_ = _venta.drop_empleados();
+                                        for (Map.Entry<String, String> entry : drop_.entrySet()) {
+                                            String key = entry.getKey();
+                                            String value = entry.getValue();
+                                            out.println("<option value='" + key + "'>" + value + "</option>");
+                                        }
+                                    %>
+                                </select>
+
                                 <br>
                                 <button name="btn_agregar" id="btn_agregar"  value="agregar" class="btn btn-primary btn-lg">Agregar</button>
                                 <button name="btn_modificar" id="btn_modificar"  value="modificar" class="btn btn-success btn-lg">Modificar</button>
@@ -163,7 +183,7 @@
                             out.println("<td>" + tabla.getValueAt(t, 5) + "</td>");
                             out.println("<td>" + tabla.getValueAt(t, 6) + "</td>");
                             out.println("<td><button class='ver-detalles'>Ver Detalles</button></td>");
-                            out.println("<td><button class='gestionar'>Gestionar</button></td>");
+                            out.println("<td><button class='gestionar' onclick=gestion(" + tabla.getValueAt(t, 0) + ")>Gestionar</button></td>");
                             out.println("</tr>");
 
                         }
@@ -215,33 +235,42 @@
                         $("#txt_no_factura").val(0);
                         $("#txt_serie").val('');
                         $("#fecha_factura").val('');
-                        $("#txt_id_cliente").val(0);
-                        $("#txt_id_empleado").val(0);
-                        $("#fecha_ingreso").val('');
                     }
 
-                    document.querySelectorAll('.gestionar').forEach(button => {
-                        button.addEventListener('click', function () {
-                            var target, id_venta, no_factura, serie, fecha_factura, id_cliente, id_empleado, fecha_ingreso;
-                            target = $(event.target);
-                            id_venta = target.parent().data('id_venta');
-                            no_factura = target.parent().data('no_factura');
-                            serie = target.parent().data('serie');
-                            fecha_factura = target.parent().data('fecha_factura');
-                            id_cliente = target.parent().data('id_cliente');
-                            id_empleado = target.parent().data('id_empleado');
-                            fecha_ingreso = target.parent().data('fecha_ingreso');
-                            $("#txt_id_venta").val(id_venta);
-                            $("#txt_no_factura").val(no_factura);
-                            $("#txt_serie").val(serie);
-                            $("#fecha_factura").val(fecha_factura);
-                            $("#txt_id_cliente").val(id_cliente);
-                            $("#txt_id_empleado").val(id_empleado);
-                            $("#fecha_ingreso").val(fecha_ingreso);
+                    function gestion(id) {
+                        let fila = document.querySelector("tr[data-id='" + id + "']");
+                        if (fila) {
+                            let celdas = fila.querySelectorAll("td");
 
+                            let dato1 = celdas[0].textContent;
+                            let dato2 = celdas[1].textContent;
+                            let dato3 = celdas[2].textContent;
+                            let dato4 = celdas[3].textContent;
+                            let dato5 = celdas[4].textContent;
+                            let dato6 = celdas[5].textContent;
+
+                            // Asigna el resultado al input
+                            document.getElementById("txt_id_venta").value = dato1;
+                            document.getElementById("txt_no_factura").value = dato2;
+                            document.getElementById("txt_serie").value = dato3;
+                            document.getElementById("fecha_factura").value = dato4;
+                            seleccionarOpcionPorTexto("drop_clientes", dato5);
+                            seleccionarOpcionPorTexto("drop_empleados", dato6);
+                            
                             $("#modal_venta").modal('show');
-                        });
-                    });
+                        }
+                    }
+
+                    function seleccionarOpcionPorTexto(selectId, textoBuscar) {
+                        const select = document.getElementById(selectId);
+
+                        for (let i = 0; i < select.options.length; i++) {
+                            if (select.options[i].text === textoBuscar) {
+                                select.selectedIndex = i;
+                                break;
+                            }
+                        }
+                    }
 
                     function limpiarDetalle() {
                         $("#txt_id_venta_detalle").val(0);

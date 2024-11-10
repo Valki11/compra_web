@@ -38,40 +38,20 @@
                 cursor: pointer;
             }
         </style>
-        <script>
-            document.addEventListener("DOMContentLoaded", function () {
-                const tablaVentas = document.getElementById("tablaVentas");
-                const tablaDetalles = document.getElementById("tablaDetalles");
-
-                tablaVentas.addEventListener("click", function (event) {
-                    const boton = event.target.closest(".ver-detalles"); // Verifica si se hizo clic en un botón
-                    if (!boton)
-                        return; // Si no es un botón de "Ver Detalles", salir
-
-                    document.getElementById("divDetalle").style.display = "block";
-                    const fila = boton.closest("tr");
-                    const ventaId = fila.getAttribute("data-id");
-
-                    // Filtra y muestra los detalles correspondientes
-                    const detallesFilas = tablaDetalles.querySelectorAll("tbody tr");
-                    detallesFilas.forEach(filaDetalle => {
-                        if (filaDetalle.getAttribute("data-venta") === ventaId) {
-                            filaDetalle.style.display = ""; // Muestra la fila
-                        } else {
-                            filaDetalle.style.display = "none"; // Oculta la fila
-                        }
-                    });
-
-                    // Asegúrate de mostrar la tabla de detalles si estaba oculta
-                    tablaDetalles.classList.remove("hidden");
-                });
-            });
-        </script>
     </head>
     <body>
         <%@ include file="menu.jsp" %>
         <h1>Formulario Ventas</h1>
-        <button type="button" name="btn_nuevo" id="btn_nuevo" class="btn btn-info btn-lg" data-toggle="modal" data-target="#modal_venta" onclick="limpiarVenta()">Nueva Venta</button>
+        
+        <div class="row">
+            <div class="col-10">
+               <button type="button" name="btn_nuevo" id="btn_nuevo" class="btn btn-info btn-lg" data-toggle="modal" data-target="#modal_venta" onclick="limpiarVenta()">Nueva Venta</button>
+            </div>
+            <div class="col-2">
+                <button type="button" name="btn_redirect" id="btn_redirect" class="btn btn-light btn-lg"><a href="vw_cliente.jsp">Clientes</a></button>
+            </div>
+        </div>
+        
 
         <div class="container">
 
@@ -134,11 +114,21 @@
                         <div class="modal-body">
                             <form action="sr_ventas_detalle" method="post" class="form-group">
                                 <label for="lbl_id_venta_detalle" ><b>ID Detalle</b></label>
-                                <input type="text" name="txt_id_venta_detalle" id="txt_id_venta_detalle" class="form-control"> 
-                                <label for="lbl_id_compra_d" ><b>Cod. Compra</b></label>
-                                <input type="text" name="txt_id_compra_d" id="txt_id_compra_d" class="form-control" required>
-                                <label for="lbl_producto" ><b>Cod. Producto</b></label>
-                                <input type="text" name="txt_producto" id="txt_producto" class="form-control" required>
+                                <input type="text" name="txt_id_venta_detalle" id="txt_id_venta_detalle" class="form-control" readonly> 
+                                <label for="lbl_id_compra_d" ><b>ID Venta</b></label>
+                                <input type="text" name="txt_id_venta_d" id="txt_id_venta_d" class="form-control" required readonly>
+                                <label for="lbl_producto" ><b>Producto</b></label>
+                                <select name="drop_productos" id="drop_productos" class="form-control">
+                                    <%
+                                        Ventas_detalle vd = new Ventas_detalle();
+                                        HashMap<String, String> drop_vd = vd.drop_productos();
+                                        for (Map.Entry<String, String> entry : drop_vd.entrySet()) {
+                                            String key = entry.getKey();
+                                            String value = entry.getValue();
+                                            out.println("<option value='" + key + "'>" + value + "</option>");
+                                        }
+                                    %>
+                                </select>
                                 <label for="lbl_cantidad" ><b>Cantidad</b></label>
                                 <input type="number" name="txt_cantidad" id="txt_cantidad" class="form-control" required>
                                 <label for="lbl_unitario" ><b>Precio Unitario</b></label>
@@ -214,7 +204,7 @@
                                 out.println("<td>" + tabla_detalle.getValueAt(t, 2) + "</td>");
                                 out.println("<td>" + tabla_detalle.getValueAt(t, 3) + "</td>");
                                 out.println("<td>" + tabla_detalle.getValueAt(t, 4) + "</td>");
-                                out.println("<td><button class='gestionar-detalle'>Gestionar</button></td>");
+                                out.println("<td><button class='gestionar-detalle' onclick=gestionDetalle(" + tabla.getValueAt(t, 0) + ")>Gestionar</button></td>");
                                 out.println("</tr>");
 
                             }
@@ -256,11 +246,42 @@
                             document.getElementById("fecha_factura").value = dato4;
                             seleccionarOpcionPorTexto("drop_clientes", dato5);
                             seleccionarOpcionPorTexto("drop_empleados", dato6);
-                            
+
                             $("#modal_venta").modal('show');
                         }
                     }
 
+                    
+
+                    function limpiarDetalle() {
+                        $("#txt_id_venta_detalle").val(0);
+                        document.getElementById("txt_id_venta_d").value  = sessionStorage.getItem("venta_id");
+                        $("#txt_cantidad").val(0);
+                        $("#txt_costo_unitario").val('');
+                    }
+
+                    function gestionDetalle(id) {
+                        let fila = document.querySelector("tr[data-venta='" + id + "']");
+                        if (fila) {
+                            let celdas = fila.querySelectorAll("td");
+
+                            let dato1 = id;
+                            let dato2 = sessionStorage.getItem("venta_id");
+                            let dato3 = celdas[0].textContent;
+                            let dato4 = celdas[1].textContent;
+                            let dato5 = celdas[2].textContent;
+
+                            // Asigna el resultado al input
+                            document.getElementById("txt_id_venta_detalle").value = dato1;
+                            document.getElementById("txt_id_venta_d").value = dato2;
+                            seleccionarOpcionPorTexto("drop_productos", dato3);
+                            document.getElementById("txt_cantidad").value = dato4;
+                            
+
+                            $("#modal_venta_detalle").modal('show');
+                        }
+                    }
+                    
                     function seleccionarOpcionPorTexto(selectId, textoBuscar) {
                         const select = document.getElementById(selectId);
 
@@ -271,34 +292,37 @@
                             }
                         }
                     }
+        </script>
+          <script>
+            document.addEventListener("DOMContentLoaded", function () {
+                const tablaVentas = document.getElementById("tablaVentas");
+                const tablaDetalles = document.getElementById("tablaDetalles");
 
-                    function limpiarDetalle() {
-                        $("#txt_id_venta_detalle").val(0);
-                        $("#txt_id_venta_d").val(0);
-                        $("#txt_producto").val(0);
-                        $("#txt_cantidad").val(0);
-                        $("#txt_costo_unitario").val('');
-                    }
+                tablaVentas.addEventListener("click", function (event) {
+                    const boton = event.target.closest(".ver-detalles"); // Verifica si se hizo clic en un botón
+                    if (!boton)
+                        return; // Si no es un botón de "Ver Detalles", salir
 
-                    document.querySelectorAll('.gestionar-detalle').forEach(button => {
-                        button.addEventListener('click', function () {
-                            var target, id_venta_detalle, id_compra_d, producto, cantidad, costo_unitario;
-                            target = $(event.target);
-                            id_venta_detalle = target.parent().data('id_venta_detalle');
-                            id_compra_d = target.parent().data('id_compra_d');
-                            producto = target.parent().data('producto');
-                            cantidad = target.parent().data('cantidad');
-                            costo_unitario = target.parent().data('costo_unitario');
-                            $("#txt_id_venta_detalle").val(id_venta_detalle);
-                            $("#txt_id_venta_d").val(id_compra_d);
-                            $("#txt_producto").val(producto);
-                            $("#txt_cantidad").val(cantidad);
-                            $("#txt_costo_unitario").val(costo_unitario);
-
-                            $("#modal_venta_detalle").modal('show');
-                        });
+                    document.getElementById("divDetalle").style.display = "block";
+                    const fila = boton.closest("tr");
+                    const ventaId = fila.getAttribute("data-id");
+                    
+                    sessionStorage.setItem("venta_id", ventaId);
+                    
+                    // Filtra y muestra los detalles correspondientes
+                    const detallesFilas = tablaDetalles.querySelectorAll("tbody tr");
+                    detallesFilas.forEach(filaDetalle => {
+                        if (filaDetalle.getAttribute("data-venta") === ventaId) {
+                            filaDetalle.style.display = ""; // Muestra la fila
+                        } else {
+                            filaDetalle.style.display = "none"; // Oculta la fila
+                        }
                     });
 
+                    // Asegúrate de mostrar la tabla de detalles si estaba oculta
+                    tablaDetalles.classList.remove("hidden");
+                });
+            });
         </script>
     </body>
 </html>

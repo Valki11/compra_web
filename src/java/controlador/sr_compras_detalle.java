@@ -33,17 +33,13 @@ public class sr_compras_detalle extends HttpServlet {
             out.println("<h1>Servlet sr_compras_detalle at " + request.getContextPath() + "</h1>");
             out.println("</body>");
             out.println("</html>");
-            SimpleDateFormat formatter = new SimpleDateFormat("yyyy-MM-dd");
-            Date fecha = new Date();
-
-            /*   java.util.Date utilDate =request.getParameter("fecha_ingreso");  */
- /*java.sql.Date sqlDate = new java.sql.Date(utilDate.getTime()); */
-            compras_detalle = new Compras_detalle(Integer.valueOf(request.getParameter("id_compra_detalle")), Integer.valueOf(request.getParameter("id_compra")), Integer.valueOf(request.getParameter("id_producto")) , Integer.valueOf(request.getParameter("cantidad")) , Integer.valueOf(request.getParameter("precio_costo_unitario")));
+            
+            compras_detalle = new Compras_detalle(Integer.valueOf(request.getParameter("txt_id_compra_detalle")), Integer.valueOf(request.getParameter("txt_id_compra_d")), Integer.valueOf(request.getParameter("drop_productos")) , Integer.valueOf(request.getParameter("txt_cantidad")) , Integer.valueOf(request.getParameter("txt_costo_unitario")));
 
             // Boton agregar 
             if ("agregar".equals(request.getParameter("btn_agregar"))) {
                 if (compras_detalle.agregar() > 0) {
-                    response.sendRedirect("index.jsp");
+                    response.sendRedirect("vw_compra.jsp");
 
                 } else {
                     out.println("<h1> xxxxxxx No se Ingreso xxxxxxxxxxxx </h1>");
@@ -54,7 +50,7 @@ public class sr_compras_detalle extends HttpServlet {
             // Boton modificar 
             if ("modificar".equals(request.getParameter("btn_modificar"))) {
                 if (compras_detalle.modificar() > 0) {
-                    response.sendRedirect("index.jsp");
+                    response.sendRedirect("vw_compra.jsp");
 
                 } else {
                     out.println("<h1> xxxxxxx No se Modifico xxxxxxxxxxxx </h1>");
@@ -65,7 +61,7 @@ public class sr_compras_detalle extends HttpServlet {
             // Boton eliminar 
             if ("eliminar".equals(request.getParameter("btn_eliminar"))) {
                 if (compras_detalle.eliminar() > 0) {
-                    response.sendRedirect("index.jsp");
+                    response.sendRedirect("vw_compra.jsp");
 
                 } else {
                     out.println("<h1> xxxxxxx No se Elimino xxxxxxxxxxxx </h1>");

@@ -94,6 +94,7 @@ public class Compras {
         } catch (SQLException ex) {
             System.out.println(ex.getMessage());
         }
+        
         return tabla;
     }
 

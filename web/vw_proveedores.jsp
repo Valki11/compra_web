@@ -22,8 +22,15 @@
     <body>
         <%@ include file="menu.jsp" %>
         <h1>Formulario Proveedor</h1>
-        <button type="button" name="btn_nuevo" id="btn_nuevo" class="btn btn-info btn-lg" data-toggle="modal" data-target="#modal_proveedor" onclick="limpiar()">Nuevo</button>
-
+       
+        <div class="row">
+            <div class="col-10">
+               <button type="button" name="btn_nuevo" id="btn_nuevo" class="btn btn-info btn-lg" data-toggle="modal" data-target="#modal_proveedor" onclick="limpiar()">Nuevo</button>
+            </div>
+            <div class="col-2">
+                <button type="button" name="btn_redirect" id="btn_redirect" class="btn btn-light btn-lg"><a href="vw_compra.jsp">Compras</a></button>
+            </div>
+        </div>
         <div class="container">
 
             <div class="modal fade" id="modal_proveedor" role="dialog">

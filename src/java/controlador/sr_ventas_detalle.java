@@ -32,32 +32,28 @@ public class sr_ventas_detalle extends HttpServlet {
             out.println("<body>");
             out.println("<h1>Servlet sr_ventas_detalle at " + request.getContextPath() + "</h1>");
             out.println("</body>");
-            SimpleDateFormat formatter = new SimpleDateFormat("yyyy-MM-dd");
-            Date fecha = new Date();
-
-            /*   java.util.Date utilDate =request.getParameter("fecha_ingreso");  */
- /*java.sql.Date sqlDate = new java.sql.Date(utilDate.getTime()); */
-            ventas_detalle = new Ventas_detalle(Integer.valueOf(request.getParameter("id_venta_detalle")), Integer.valueOf(request.getParameter("id_Venta")), Integer.valueOf(request.getParameter("id_producto")), Integer.valueOf(request.getParameter("cantidad")), Integer.valueOf(request.getParameter("precio_unitario")));
+           
+            ventas_detalle = new Ventas_detalle(Integer.valueOf(request.getParameter("txt_id_venta_detalle")), Integer.valueOf(request.getParameter("txt_id_venta_d")), Integer.valueOf(request.getParameter("drop_productos")), Integer.valueOf(request.getParameter("txt_cantidad")), Integer.valueOf(request.getParameter("txt_costo_unitario")));
 
             // Boton agregar 
             if ("agregar".equals(request.getParameter("btn_agregar"))) {
                 if (ventas_detalle.agregar() > 0) {
-                    response.sendRedirect("index.jsp");
+                    response.sendRedirect("vw_venta.jsp");
 
                 } else {
                     out.println("<h1> xxxxxxx No se Ingreso xxxxxxxxxxxx </h1>");
-                    out.println("<a href='index.jsp'>Regresar...</a>");
+                    out.println("<a href='vw_venta.jsp'>Regresar...</a>");
                 }
             }
 
             // Boton modificar 
             if ("modificar".equals(request.getParameter("btn_modificar"))) {
                 if (ventas_detalle.modificar() > 0) {
-                    response.sendRedirect("index.jsp");
+                    response.sendRedirect("vw_venta.jsp");
 
                 } else {
                     out.println("<h1> xxxxxxx No se Modifico xxxxxxxxxxxx </h1>");
-                    out.println("<a href='index.jsp'>Regresar...</a>");
+                    out.println("<a href='vw_venta.jsp'>Regresar...</a>");
                 }
             }
 

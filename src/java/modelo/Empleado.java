@@ -5,6 +5,7 @@ import java.sql.SQLException;
 import java.sql.PreparedStatement;
 import javax.swing.table.DefaultTableModel;
 import java.sql.Date;
+import java.util.HashMap;
 
 /**
  *
@@ -164,20 +165,20 @@ public class Empleado {
         try {
             PreparedStatement parametro;
             cn = new Conexion();
-            String query = "insert into empleados(id_empleado, nombres, apellidos, dirrecion, telefono, DPI, genero, fecha_nacimiento, id_puesto,fecha_inicio_labores,fecha_ingreso) values(?,?,?,?,?,?,?,?,?,?,?);";
+            String query = "insert into empleados(nombres, apellidos, direccion, telefono, DPI, genero, fecha_nacimiento, id_puesto,fecha_inicio_labores,fecha_ingreso) values(?,?,?,?,?,?,?,?,?,?);";
             cn.abrir_conexion();
             parametro = (PreparedStatement) cn.conexionBD.prepareStatement(query);
-            parametro.setInt(1, getId_empleado());
-            parametro.setString(2, getNombres());
-            parametro.setString(3, getApellidos());
-            parametro.setString(4, getDireccion());
-            parametro.setString(5, getTelefono());
-            parametro.setString(6, getDPI());
-            parametro.setBoolean(7, getGenero());
-            parametro.setDate(8, getFecha_nacimiento());
+            parametro.setString(1, getNombres());
+            parametro.setString(2, getApellidos());
+            parametro.setString(3, getDireccion());
+            parametro.setString(4, getTelefono());
+            parametro.setString(5, getDPI());
+            parametro.setBoolean(6, getGenero());
+            parametro.setDate(7, getFecha_nacimiento());
+            parametro.setInt(8, getId_puesto());
             parametro.setDate(9, getFecha_inicio_labores());
             parametro.setDate(10, getFecha_ingreso());
-            parametro.setInt(11, getId_puesto());
+            
             retorno = parametro.executeUpdate();
             cn.cerrar_conexion();
         } catch (SQLException ex) {
@@ -191,21 +192,20 @@ public class Empleado {
         try {
             PreparedStatement parametro;
             cn = new Conexion();
-            String query = "update empleados set id_empleado= ?, nombres= ?, apellidos= ?, dirrecion= ?, telefono= ?, DPI= ?, genero= ?, fecha_nacimiento= ?, id_puesto= ?,fecha_inicio_labores= ?,fecha_ingreso= ? where id_empleado = ?,= ?,= ?,= ?,= ?,= ?,= ?,= ?,= ?,= ?,= ?;";
+            String query = "update empleados set nombres= ?, apellidos= ?, direccion= ?, telefono= ?, DPI= ?, genero= ?, fecha_nacimiento= ?, id_puesto= ?,fecha_inicio_labores= ?,fecha_ingreso= ? where id_empleado = ?;";
             cn.abrir_conexion();
             parametro = (PreparedStatement) cn.conexionBD.prepareStatement(query);
-            parametro = (PreparedStatement) cn.conexionBD.prepareStatement(query);
-            parametro.setInt(1, getId_empleado());
-            parametro.setString(2, getNombres());
-            parametro.setString(3, getApellidos());
-            parametro.setString(4, getDireccion());
-            parametro.setString(5, getTelefono());
-            parametro.setString(6, getDPI());
-            parametro.setBoolean(7, getGenero());
-            parametro.setDate(8, getFecha_nacimiento());
+            parametro.setString(1, getNombres());
+            parametro.setString(2, getApellidos());
+            parametro.setString(3, getDireccion());
+            parametro.setString(4, getTelefono());
+            parametro.setString(5, getDPI());
+            parametro.setBoolean(6, getGenero());
+            parametro.setDate(7, getFecha_nacimiento());
+            parametro.setInt(8, getId_puesto());
             parametro.setDate(9, getFecha_inicio_labores());
             parametro.setDate(10, getFecha_ingreso());
-            parametro.setInt(11, getId_puesto());
+            parametro.setInt(11, getId_empleado());
             retorno = parametro.executeUpdate();
             cn.cerrar_conexion();
         } catch (SQLException ex) {
@@ -231,4 +231,20 @@ public class Empleado {
         return retorno;
     }
 
+     public HashMap drop_puesto() {
+        HashMap<String, String> drop = new HashMap();
+        try {
+            String query = "Select id_puesto as id, puesto from puestos";
+            cn = new Conexion();
+            cn.abrir_conexion();
+            ResultSet consulta = cn.conexionBD.createStatement().executeQuery(query);
+            while (consulta.next()) {
+                drop.put(consulta.getString("id"), consulta.getString("puesto"));
+            }
+            cn.cerrar_conexion();
+        } catch (SQLException ex) {
+            System.out.println(ex.getMessage());
+        }
+        return drop;
+    }
 }

@@ -1,3 +1,4 @@
+<%@page import="java.util.Map"%>
 <%@page import="modelo.Empleado" %>
 <%@page import="java.util.HashMap" %>
 <%@page import="javax.swing.table.DefaultTableModel" %>
@@ -36,7 +37,7 @@
                         <div class="modal-body">
                             <form action="sr_empleados" method="post" class="form-group">
                                 <label for="lbl_id_empleado" ><b>ID</b></label>
-                                <input type="text" name="txt_id_empleado" id="txt_id_empleado" class="form-control"> 
+                                <input type="text" name="txt_id_empleado" id="txt_id_empleado" class="form-control" readonly> 
                                 <label for="lbl_nombre" ><b>Nombres</b></label>
                                 <input type="text" name="txt_nombre" id="txt_nombre" class="form-control" +required>
                                 <label for="lbl_apellido" ><b>Apellidos</b></label>
@@ -47,17 +48,27 @@
                                 <input type="text" name="txt_telefono" id="txt_telefono" class="form-control"required>
                                 <label for="lbl_dpi" ><b>DPI</b></label>
                                 <input type="text" name="txt_dpi" id="txt_dpi" class="form-control"required>
-                                <label for="lbl_genero" ><b>Genero</b></label>
-                                <input type="text" name="txt_genero" id="txt_genero" class="form-control"required>
+                               <label for="lbl_genero" ><b>Genero</b></label>
+                                <select id="genero" name="genero" class="form-control">
+                                    <option value="1">Hombre</option>
+                                    <option value="0">Mujer</option>
+                                </select>
                                 <label for="lbl_fecha_nacimiento" ><b>Fecha Nacimiento</b></label>
-                                <input type="date" id="fecha_nacimiento" name="fecha">
-                                <label for="lbl_id_puesto" ><b>Cod. Puesto</b></label>
-                                <input type="text" name="txt_id_puesto" id="txt_id_puesto" class="form-control"required>
+                                <input type="date" id="fecha_nacimiento" name="fecha_nacimiento" class="form-control">
+                                <label for="lbl_id_puesto" ><b>Puesto</b></label>
+                                <select name="drop_puesto" id="drop_puesto" class="form-control">
+                                    <%
+                                        Empleado empleado_ = new Empleado();
+                                        HashMap<String, String> drop = empleado_.drop_puesto();
+                                        for (Map.Entry<String, String> entry : drop.entrySet()) {
+                                            String key = entry.getKey();
+                                            String value = entry.getValue();
+                                            out.println("<option value='" + key + "'>" + value + "</option>");
+                                        }
+                                    %>
+                                </select>
                                 <label for="lbl_inicio_laborales" ><b>Fecha Inicio Labores</b></label>
-                                <input type="date" id="fecha_inicio_laborales" name="fecha">
-                                <label for="lbl_fecha_ingreso" ><b>Fecha Ingreso</b></label>
-                                <input type="text" id="fecha_ingreso">                                <input type="date" id="fecha_ingreso" name="fecha">
-
+                                <input type="date" id="fecha_inicio_laborales" name="fecha_inicio_laborales" class="form-control">
 
                                 <br>
                                 <button name="btn_agregar" id="btn_agregar"  value="agregar" class="btn btn-primary btn-lg">Agregar</button>
@@ -106,7 +117,7 @@
                             out.println("<td>" + tabla.getValueAt(t, 8) + "</td>");
                             out.println("<td>" + tabla.getValueAt(t, 9) + "</td>");
                             out.println("<td>" + tabla.getValueAt(t, 10) + "</td>");
-                            out.println("<td><button class='gestionar'>Gestionar</button></td>");
+                            out.println("<td><button class='gestionar' onclick=gestion(" + tabla.getValueAt(t, 0) + ")>Gestionar</button></td>");
                             out.println("</tr>");
                         }
                     %>
@@ -134,37 +145,49 @@
                                         $("#fecha_ingreso").val('');
                                     }
 
-                                    document.querySelectorAll('.gestionar').forEach(button => {
-                                        button.addEventListener('click', function () {
-                                            var target, id_empleado, nombres, apellidos, direccion, telefono, DPI, genero, fecha_nacimiento, id_puesto, fecha_inicio, fecha_ingreso;
-                                            target = $(event.target);
-                                            id_empleado = target.parent().data('id_empleado');
-                                            nombres = target.parent().data('nombres');
-                                            apellidos = target.parent().data('apellidos');
-                                            direccion = target.parent().data('NIT');
-                                            telefono = target.parent().data('telefono');
-                                            DPI = target.parent().data('DPI');
-                                            genero = target.parent().data('genero');
-                                            fecha_nacimiento = target.parent().data('fecha_nacimiento');
-                                            id_puesto = target.parent().data('id_puesto');
-                                            fecha_inicio = target.parent().data('fecha_inicio');
-                                            fecha_ingreso = target.parent().data('fecha_ingreso');
+                                    function gestion(id) {
+                                        let fila = document.querySelector("tr[data-id='" + id + "']");
+                                        if (fila) {
+                                            let celdas = fila.querySelectorAll("td");
 
-                                            $("#txt_id_empleado").val(id_empleado);
-                                            $("#txt_nombre").val(id_empleado);
-                                            $("#txt_apellido").val(apellidos);
-                                            $("#txt_direccion").val(direccion);
-                                            $("#txt_telefono").val(telefono);
-                                            $("#txt_dpi").val(DPI);
-                                            $("#txt_genero").val(genero);
-                                            $("#fecha_nacimiento").val(fecha_nacimiento);
-                                            $("#txt_id_puesto").val(id_puesto);
-                                            $("#fecha_inicio_laborales").val(fecha_inicio);
-                                            $("#fecha_ingreso").val(fecha_ingreso);
+                                            let dato1 = celdas[0].textContent;
+                                            let dato2 = celdas[1].textContent;
+                                            let dato3 = celdas[2].textContent;
+                                            let dato4 = celdas[3].textContent;
+                                            let dato5 = celdas[4].textContent;
+                                            let dato6 = celdas[5].textContent;
+                                            let dato7 = celdas[6].textContent;
+                                            let dato8 = celdas[7].textContent;
+                                            let dato9 = celdas[8].textContent;
+                                            let dato10 = celdas[9].textContent;
+
+                                            // Asigna el resultado al input
+                                            document.getElementById("txt_id_empleado").value = dato1;
+                                            document.getElementById("txt_nombre").value = dato2;
+                                            document.getElementById("txt_apellido").value = dato3;
+                                            document.getElementById("txt_direccion").value = dato4;
+                                            document.getElementById("txt_telefono").value = dato5;
+                                            document.getElementById("txt_dpi").value = dato6;
+                                            document.getElementById("genero").value = dato7 === "Hombre" ? 1 : 0;
+                                            document.getElementById("fecha_nacimiento").value = dato8;
+                                            seleccionarOpcionPorTexto("drop_puesto", dato9);
+                                            document.getElementById("fecha_inicio_laborales").value = dato10;
+
 
                                             $("#modal_empleado").modal('show');
-                                        });
-                                    });
+                                        }
+                                    }
+
+                                    function seleccionarOpcionPorTexto(selectId, textoBuscar) {
+                                        const select = document.getElementById(selectId);
+
+                                        for (let i = 0; i < select.options.length; i++) {
+                                            if (select.options[i].text === textoBuscar) {
+                                                select.selectedIndex = i;
+                                                break;
+                                            }
+                                        }
+                                    }
 
         </script>
     </body>

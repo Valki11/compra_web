@@ -30,10 +30,11 @@ public class sr_cliente extends HttpServlet {
             out.println("<title>Servlet Puesto</title>");
             out.println("</head>");
             out.println("<body>");
+            
             Date fecha = new Date();
             java.sql.Date fechaSQL = new java.sql.Date(fecha.getTime());
-            
             boolean genero = request.getParameter("genero").equals("1");
+            
             cliente = new Clientes(Integer.valueOf(request.getParameter("txt_id_cliente")), request.getParameter("txt_nombre"),request.getParameter("txt_apellido"),request.getParameter("txt_nit"), genero,request.getParameter("txt_telefono"), request.getParameter("txt_correo"), (java.sql.Date) fechaSQL);
 
             // Boton agregar 

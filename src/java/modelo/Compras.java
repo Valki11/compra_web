@@ -4,6 +4,7 @@ import java.sql.Date;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.util.HashMap;
 import javax.swing.table.DefaultTableModel;
 
 /**
@@ -22,13 +23,13 @@ public class Compras {
 
     public Compras() {
     }
-    
+
     private int id_compra;
-   private int no_orden_compra;
-   private int id_proveedor;
-   private Date fecha_orden;
-   private Date fecha_ingreso;
-   Conexion cn;
+    private int no_orden_compra;
+    private int id_proveedor;
+    private Date fecha_orden;
+    private Date fecha_ingreso;
+    Conexion cn;
 
     public int getId_compra() {
         return id_compra;
@@ -69,7 +70,7 @@ public class Compras {
     public void setFecha_ingreso(Date fecha_ingreso) {
         this.fecha_ingreso = fecha_ingreso;
     }
-    
+
     public DefaultTableModel leer() {
         DefaultTableModel tabla = new DefaultTableModel();
         try {
@@ -77,7 +78,7 @@ public class Compras {
             cn.abrir_conexion();
             String query = "SELECT c.id_compra, c.no_orden_compra, p.proveedor as id_proveedor, c.fecha_orden, c.fecha_ingreso FROM compras c INNER JOIN proveedores p ON c.id_proveedor = p.id_proveedor;";
             ResultSet consulta = cn.conexionBD.createStatement().executeQuery(query);
-            String encabezado[] = {"id_compra", "no_orden_compra","id_proveedor","fecha_orden","fecha_ingreso"};
+            String encabezado[] = {"id_compra", "no_orden_compra", "id_proveedor", "fecha_orden", "fecha_ingreso"};
             tabla.setColumnIdentifiers(encabezado);
             String datos[] = new String[5];
             while (consulta.next()) {
@@ -101,14 +102,13 @@ public class Compras {
         try {
             PreparedStatement parametro;
             cn = new Conexion();
-            String query = "insert into compras (id_compra,no_orden_compra,id_proveedor,fecha_orden,fecha_ingreso) values(?,?,?,?,?);";
+            String query = "insert into compras (no_orden_compra,id_proveedor,fecha_orden,fecha_ingreso) values(?,?,?,?);";
             cn.abrir_conexion();
             parametro = (PreparedStatement) cn.conexionBD.prepareStatement(query);
-            parametro.setInt(1, getId_compra());
-            parametro.setInt(2,getNo_orden_compra());
-            parametro.setInt(3, getId_proveedor());
-            parametro.setDate(4,getFecha_orden());
-            parametro.setDate(5, getFecha_ingreso());
+            parametro.setInt(1, getNo_orden_compra());
+            parametro.setInt(2, getId_proveedor());
+            parametro.setDate(3, getFecha_orden());
+            parametro.setDate(4, getFecha_ingreso());
             retorno = parametro.executeUpdate();
             cn.cerrar_conexion();
         } catch (SQLException ex) {
@@ -122,13 +122,14 @@ public class Compras {
         try {
             PreparedStatement parametro;
             cn = new Conexion();
-            String query = "update puestos set puesto = ?  where id_puesto = ?;";
+            String query = "update compras set no_orden_compra = ?, id_proveedor = ?, fecha_orden = ?, fecha_ingreso = ? where id_compra = ?;";
             cn.abrir_conexion();
             parametro = (PreparedStatement) cn.conexionBD.prepareStatement(query);
-            parametro.setInt(1,getNo_orden_compra());
+            parametro.setInt(1, getNo_orden_compra());
             parametro.setInt(2, getId_proveedor());
-            parametro.setDate(3,getFecha_orden());
-            parametro.setDate(4,getFecha_ingreso());
+            parametro.setDate(3, getFecha_orden());
+            parametro.setDate(4, getFecha_ingreso());
+            parametro.setInt(5, getId_compra());
             retorno = parametro.executeUpdate();
             cn.cerrar_conexion();
         } catch (SQLException ex) {
@@ -153,6 +154,21 @@ public class Compras {
         }
         return retorno;
     }
+
+    public HashMap drop_proveedores() {
+        HashMap<String, String> drop = new HashMap();
+        try {
+            String query = "Select id_proveedor as id, proveedor from proveedores";
+            cn = new Conexion();
+            cn.abrir_conexion();
+            ResultSet consulta = cn.conexionBD.createStatement().executeQuery(query);
+            while (consulta.next()) {
+                drop.put(consulta.getString("id"), consulta.getString("proveedor"));
+            }
+            cn.cerrar_conexion();
+        } catch (SQLException ex) {
+            System.out.println(ex.getMessage());
+        }
+        return drop;
+    }
 }
-
-

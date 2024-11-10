@@ -1,3 +1,4 @@
+<%@page import="java.util.Map"%>
 <%@page import="modelo.Compras" %>
 <%@page import="modelo.Compras_detalle" %>
 <%@page import="java.util.HashMap" %>
@@ -79,15 +80,24 @@
                         <div class="modal-body">
                             <form action="sr_compras" method="post" class="form-group">
                                 <label for="lbl_id_compra" ><b>ID</b></label>
-                                <input type="text" name="txt_id_compra" id="txt_id_compra" class="form-control"> 
+                                <input type="text" name="txt_id_compra" id="txt_id_compra" class="form-control" readonly> 
                                 <label for="lbl_no_orden_compra" ><b>No. orden compra</b></label>
                                 <input type="text" name="txt_no_orden_compra" id="txt_no_orden_compra" class="form-control" required>
-                                <label for="lbl_id_proveedor" ><b>Cod. Proveedor</b></label>
-                                <input type="text" name="txt_id_proveedor" id="txt_id_proveedor" class="form-control" required>
+                                <label for="lbl_id_proveedor" ><b>Proveedor</b></label>
+                                <select name="drop_proveedores" id="drop_proveedores" class="form-control">
+                                    <%
+                                        Compras compra_ = new Compras();
+                                        HashMap<String, String> drop = compra_.drop_proveedores();
+                                        for (Map.Entry<String, String> entry : drop.entrySet()) {
+                                            String key = entry.getKey();
+                                            String value = entry.getValue();
+                                            out.println("<option value='" + key + "'>" + value + "</option>");
+                                        }
+                                    %>
+                                </select>
+
                                 <label for="lbl_fecha_orden" ><b>Fecha Orden</b></label>
-                                <input type="date" id="fecha_orden" name="fecha">
-                                <label for="lbl_fecha_ingreso" ><b>Fecha Ingreso</b></label>
-                                <input type="date" id="fecha_ingreso" name="fecha">
+                                <input type="date" id="fecha_orden" class="form-control" name="fecha_orden">
 
                                 <br>
                                 <button name="btn_agregar" id="btn_agregar"  value="agregar" class="btn btn-primary btn-lg">Agregar</button>
@@ -155,7 +165,7 @@
                             out.println("<td>" + tabla.getValueAt(t, 3) + "</td>");
                             out.println("<td>" + tabla.getValueAt(t, 4) + "</td>");
                             out.println("<td><button class='ver-detalles'>Ver Detalles</button></td>");
-                            out.println("<td><button class='gestionar'>Gestionar</button></td>");
+                            out.println("<td><button class='gestionar' onclick=gestion(" + tabla.getValueAt(t, 0) + ")>Gestionar</button></td>");
                             out.println("</tr>");
 
                         }
@@ -205,28 +215,40 @@
                     function limpiarCompra() {
                         $("#txt_id_compra").val(0);
                         $("#txt_no_orden_compra").val(0);
-                        $("#txt_id_proveedor").val(0);
+                        $("#drop_proveedores").val(0);
                         $("#fecha_orden").val('');
-                        $("#fecha_ingreso").val('');
                     }
 
-                    document.querySelectorAll('.gestionar').forEach(button => {
-                        button.addEventListener('click', function () {
-                            var target, id_compra, no_orden_compra, id_proveedor, fecha_orden, fecha_ingreso;
-                            target = $(event.target);
-                            id_compra = target.parent().data('id_compra');
-                            no_orden_compra = target.parent().data('no_orden_compra');
-                            id_proveedor = target.parent().data('id_proveedor');
-                            fecha_orden = target.parent().data('fecha_orden');
-                            fecha_ingreso = target.parent().data('fecha_ingreso');
-                            $("#txt_id_compra").val(id_compra);
-                            $("#txt_no_orden_compra").val(no_orden_compra);
-                            $("#txt_id_proveedor").val(id_proveedor);
-                            $("#fecha_orden").val(fecha_orden);
-                            $("#fecha_ingreso").val(fecha_ingreso);
+                    function gestion(id) {
+                        let fila = document.querySelector("tr[data-id='" + id + "']");
+                        if (fila) {
+                            let celdas = fila.querySelectorAll("td");
+
+                            let dato1 = celdas[0].textContent;
+                            let dato2 = celdas[1].textContent;
+                            let dato3 = celdas[2].textContent;
+                            let dato4 = celdas[3].textContent;
+
+                            // Asigna el resultado al input
+                            document.getElementById("txt_id_compra").value = dato1;
+                            document.getElementById("txt_no_orden_compra").value = dato2;
+                            seleccionarOpcionPorTexto("drop_proveedores", dato3);
+                            document.getElementById("fecha_orden").value = dato4;
+
                             $("#modal_compra").modal('show');
-                        });
-                    });
+                        }
+                    }
+
+                    function seleccionarOpcionPorTexto(selectId, textoBuscar) {
+                        const select = document.getElementById(selectId);
+
+                        for (let i = 0; i < select.options.length; i++) {
+                            if (select.options[i].text === textoBuscar) {
+                                select.selectedIndex = i;
+                                break;
+                            }
+                        }
+                    }
 
                     function limpiarDetalle() {
                         $("#txt_id_compra_detalle").val(0);
